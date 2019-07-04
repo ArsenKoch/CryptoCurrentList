@@ -2,9 +2,14 @@ package com.example.cryptocurrency.api
 
 import com.example.cryptocurrency.BuildConfig
 import com.example.cryptocurrency.data.pojo.CoinInfoFullData
+import com.example.cryptocurrency.data.pojo.CoinPriceFullData
+import com.google.gson.JsonObject
+import io.reactivex.Observable
 import io.reactivex.Single
+import org.json.JSONObject
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.util.*
 
 interface ApiService {
 
@@ -12,12 +17,26 @@ interface ApiService {
         private const val QUERY_PARAMS_LIMIT = "limit"
         private const val QUERY_PARAMS_API_KEY = "api_key"
         private const val QUERY_PARAMS_TO_SYMBOL = "tsym"
+        private const val QUERY_PARAMS_TO_SYMBOLS = "tsyms"
+        private const val QUERY_PARAMS_FROM_SYMBOL = "fsym"
+        private const val QUERY_PARAMS_FROM_SYMBOLS = "fsyms"
+
+        private const val CURRENCY_USD = "USD"
+        private const val CURRENCY_EUR = "EUR"
+        private const val CURRENCY_RUR = "RUR"
     }
 
     @GET("top/totalvolfull")
     fun getTopCoinsInfo(
         @Query(QUERY_PARAMS_LIMIT) limit: Int = 10,
-        @Query(QUERY_PARAMS_TO_SYMBOL) tsym: String = "USD",
+        @Query(QUERY_PARAMS_TO_SYMBOL) tsym: String = CURRENCY_RUR,
         @Query(QUERY_PARAMS_API_KEY) apiKey: String = BuildConfig.API_KEY
-    ): Single<CoinInfoFullData>
+    ): Observable<CoinInfoFullData>
+
+    @GET("pricemultifull")
+    fun getFullPriceList(
+        @Query(QUERY_PARAMS_FROM_SYMBOLS) listOfFromSymbols: String,
+        @Query(QUERY_PARAMS_TO_SYMBOLS) listOfToSymbols: String = CURRENCY_RUR,
+        @Query(QUERY_PARAMS_API_KEY) apiKey: String = BuildConfig.API_KEY
+    ): Observable<CoinPriceFullData>
 }

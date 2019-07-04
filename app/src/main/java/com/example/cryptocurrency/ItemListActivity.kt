@@ -44,16 +44,14 @@ class ItemListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
-        disposable = ApiFactory.apiService.getTopCoinsInfo(limit = 20)
+        disposable = ApiFactory.apiService.getFullPriceList("BTC,ETH")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                val coins = it.listOfCoins
-                for (coinData in coins) {
-                    Log.d(TAG, coinData.coinInfo?.fullName?:"Not found")
-                }
+                Log.d(TAG, it.coinPriceInfoJSONObject.toString())
+                Log.d(TAG, it.coinPriceDisplayInfoJSONObject.toString())
             }, {
-                Log.d(TAG, it.message?:"Unknown error")
+                Log.d(TAG, it.message ?: "Unknown error")
             })
         setSupportActionBar(toolbar)
         toolbar.title = title
