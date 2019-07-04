@@ -11,7 +11,7 @@ import com.example.cryptocurrency.data.pojo.CoinInfo
 import com.example.cryptocurrency.data.pojo.CoinPriceDisplayInfo
 import com.example.cryptocurrency.data.pojo.CoinPriceInfo
 
-@Database(entities = [CoinPriceInfo::class, CoinPriceDisplayInfo::class, CoinInfo::class], version = 2, exportSchema = false)
+@Database(entities = [CoinPriceInfo::class, CoinPriceDisplayInfo::class, CoinInfo::class], version = 1 , exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
     companion object {
         private const val DB_NAME = "main.db"

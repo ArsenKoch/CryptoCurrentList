@@ -25,14 +25,14 @@ interface ApiService {
     @GET("top/totalvolfull")
     fun getTopCoinsInfo(
         @Query(QUERY_PARAMS_LIMIT) limit: Int = 10,
-        @Query(QUERY_PARAMS_TO_SYMBOL) tsym: String = CURRENCY_RUR,
+        @Query(QUERY_PARAMS_TO_SYMBOL) tsym: String = CURRENCY_USD,
         @Query(QUERY_PARAMS_API_KEY) apiKey: String = BuildConfig.API_KEY
     ): Observable<CoinInfoFullData>
 
     @GET("pricemultifull")
     fun getFullPriceList(
         @Query(QUERY_PARAMS_FROM_SYMBOLS) listOfFromSymbols: String,
-        @Query(QUERY_PARAMS_TO_SYMBOLS) listOfToSymbols: String = CURRENCY_RUR,
+        @Query(QUERY_PARAMS_TO_SYMBOLS) listOfToSymbols: String = CURRENCY_USD,
         @Query(QUERY_PARAMS_API_KEY) apiKey: String = BuildConfig.API_KEY
     ): Observable<CoinPriceListFullData>
 }

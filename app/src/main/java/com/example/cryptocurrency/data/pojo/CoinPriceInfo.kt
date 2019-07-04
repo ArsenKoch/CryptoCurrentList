@@ -28,7 +28,7 @@ data class CoinPriceInfo (
     val price: String?,
     @SerializedName("LASTUPDATE")
     @Expose
-    val lastUpdate: String?,
+    val lastUpdate: Long?,
     @SerializedName("LASTVOLUME")
     @Expose
     val lastVolume: String?,

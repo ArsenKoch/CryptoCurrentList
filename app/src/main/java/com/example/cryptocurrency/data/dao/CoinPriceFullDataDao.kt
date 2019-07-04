@@ -9,7 +9,7 @@ import com.example.cryptocurrency.data.pojo.CoinPriceInfo
 
 @Dao
 interface CoinPriceFullDataDao {
-    @Query("SELECT * FROM full_price_list")
+    @Query("SELECT * FROM full_price_list ORDER BY lastUpdate DESC")
     fun getPriceList(): LiveData<List<CoinPriceInfo>>
 
     @Query("SELECT * FROM full_price_list WHERE fromSymbol == :symbol")
