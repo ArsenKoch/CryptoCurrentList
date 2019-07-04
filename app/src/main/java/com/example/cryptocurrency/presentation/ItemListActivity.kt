@@ -20,6 +20,7 @@ import com.example.cryptocurrency.R
 
 import com.example.cryptocurrency.dummy.DummyContent
 import com.example.cryptocurrency.presentation.adapters.PriceListAdapter
+import com.example.cryptocurrency.presentation.utils.PriceDiffUtilsCallback
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_item_list.*
 import kotlinx.android.synthetic.main.item_list_content.view.*
@@ -70,7 +71,7 @@ class ItemListActivity : AppCompatActivity() {
         setupSeekBar()
         coinPriceViewModel.loadData()
         coinPriceViewModel.getFullPriceList().observe(this, Observer {
-            adapter.priceList = it
+            adapter.submitList(it)
         })
     }
 
@@ -101,9 +102,9 @@ class ItemListActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        adapter = PriceListAdapter(this)
+        adapter = PriceListAdapter(this, PriceDiffUtilsCallback())
         recyclerView.adapter = adapter
-
+        recyclerView.itemAnimator = null
     }
 
     override fun onDestroy() {
