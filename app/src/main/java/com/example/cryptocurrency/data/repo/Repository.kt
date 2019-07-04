@@ -4,14 +4,12 @@ import android.app.Application
 import android.os.AsyncTask
 import android.util.Log
 import com.example.cryptocurrency.api.ApiFactory
-import com.example.cryptocurrency.data.dao.CoinPriceDataToDisplayDao
-import com.example.cryptocurrency.data.dao.CoinPriceFullDataDao
 import com.example.cryptocurrency.data.pojo.CoinPriceDisplayInfo
 import com.example.cryptocurrency.data.pojo.CoinPriceInfo
 import com.google.gson.Gson
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.lang.StringBuilder
 
 class Repository(application: Application) {
 
@@ -31,36 +29,29 @@ class Repository(application: Application) {
     fun getFullInfoAboutCoin(symbol: String) = coinPriceInfoDao.getFullPriceInfoAboutCoin(symbol)
     fun getInfoAboutCoinToDisplay(symbol: String) = coinPriceDataToDisplayDao.getPriceInfoToDisplayAboutCoin(symbol)
 
-    private fun insertFullPriceList(priceList: List<CoinPriceInfo>) {
-        InsertFullPriceListTask(coinPriceInfoDao).execute(priceList)
-    }
-
-    private class InsertFullPriceListTask(private val coinPriceInfoDao: CoinPriceFullDataDao): AsyncTask<List<CoinPriceInfo>, Unit, Unit>() {
-        override fun doInBackground(vararg lists: List<CoinPriceInfo>?) {
-            for (list in lists) {
-                list?.let {
-                    coinPriceInfoDao.insertFullPriceList(it)
-                }
-            }
-        }
-    }
-
-    private fun insertPriceListToDisplay(priceList: List<CoinPriceDisplayInfo>) {
-        InsertPriceListToDisplayTask(coinPriceDataToDisplayDao).execute(priceList)
-    }
-
-    private class InsertPriceListToDisplayTask(private val coinPriceDataToDisplayDao: CoinPriceDataToDisplayDao): AsyncTask<List<CoinPriceDisplayInfo>, Unit, Unit>() {
-        override fun doInBackground(vararg lists: List<CoinPriceDisplayInfo>?) {
-            for (list in lists) {
-                list?.let {
-                    coinPriceDataToDisplayDao.insertPriceListToDisplay(it)
-                }
-            }
-        }
-    }
-
     fun loadData() {
-        val disposable = ApiFactory.apiService.getFullPriceList("BTC,ETH")
+        val disposable = ApiFactory.apiService.getTopCoinsInfo(20)
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .subscribe({
+                db.coinInfoDao().insertCoins(it.listOfCoins.map { it.coinInfo })
+                val symbols = db.coinInfoDao().getAllCoins().map { it.name }
+                loadPriceList(symbols)
+            },{
+                Log.d(TAG, it.message ?: "Unknown error")
+            })
+        compositeDisposable.add(disposable)
+    }
+
+    private fun loadPriceList(symbols: List<String?>) {
+        val symbolsBuilder = StringBuilder()
+        for (i in 0 until symbols.size) {
+            symbolsBuilder.append(symbols[i])
+            if (i != symbols.size - 1) {
+                symbolsBuilder.append(",")
+            }
+        }
+        val disposable = ApiFactory.apiService.getFullPriceList(symbolsBuilder.toString())
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({

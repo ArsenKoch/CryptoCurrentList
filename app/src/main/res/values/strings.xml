@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Crypto Currency</string>
     <string name="title_item_detail">Item Detail</string>
+    <string name="period_of_refreshing_label">Период обновления: %s с.</string>
+    <string name="text_view_label_symbols">%s / %s</string>
+    <string name="last_update_label">Последнее обновление: %s</string>
 </resources>

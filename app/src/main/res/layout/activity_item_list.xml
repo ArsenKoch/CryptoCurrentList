@@ -27,16 +27,37 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+
+
         <include layout="@layout/item_list"/>
     </FrameLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@android:drawable/ic_dialog_email"/>
+    <LinearLayout
+            android:orientation="vertical"
+            android:background="@color/colorBlack"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_gravity="bottom">
+
+        <SeekBar
+                android:id="@+id/seek_bar_time_of_refreshing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_margin="8dp"
+        />
+
+        <TextView
+                android:id="@+id/text_view_period_of_refreshing_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/period_of_refreshing_label"
+                android:textSize="14sp"
+                android:textColor="@color/colorWhite"
+                android:layout_marginBottom="16dp"
+                android:background="@android:color/transparent"/>
+
+    </LinearLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,27 +1,30 @@
 package com.example.cryptocurrency.presentation
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.cryptocurrency.R
-import com.example.cryptocurrency.api.ApiFactory
 
 import com.example.cryptocurrency.dummy.DummyContent
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.example.cryptocurrency.presentation.adapters.PriceListAdapter
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_item_list.*
 import kotlinx.android.synthetic.main.item_list_content.view.*
 import kotlinx.android.synthetic.main.item_list.*
+import java.util.prefs.Preferences
 
 /**
  * An activity representing a list of Pings. This activity
@@ -33,6 +36,11 @@ import kotlinx.android.synthetic.main.item_list.*
  */
 class ItemListActivity : AppCompatActivity() {
 
+    companion object {
+        const val SHARED_PREFS_NAME = "main prefs"
+        const val KEY_REFRESHING_PERIOD = "refreshing period"
+    }
+
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -40,19 +48,17 @@ class ItemListActivity : AppCompatActivity() {
     private var twoPane: Boolean = false
     private var disposable: Disposable? = null
 
+    private lateinit var adapter: PriceListAdapter
     private lateinit var coinPriceViewModel: CoinPriceViewModel
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
+        sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
         coinPriceViewModel = ViewModelProviders.of(this).get(CoinPriceViewModel::class.java)
         setSupportActionBar(toolbar)
         toolbar.title = title
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
 
         if (item_detail_container != null) {
             // The detail container view will be present only in the
@@ -63,77 +69,40 @@ class ItemListActivity : AppCompatActivity() {
         }
 
         setupRecyclerView(item_list)
+        setupSeekBar()
         coinPriceViewModel.loadData()
-        coinPriceViewModel.getFullPriceList().observe(this, Observer {
-            for (priceInfo in it) {
-                Log.d("Loaded Success", priceInfo.fromSymbol)
-            }
+        coinPriceViewModel.getPriceListToDisplay().observe(this, Observer {
+            adapter.priceList = it
         })
     }
 
-    private fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.adapter =
-            SimpleItemRecyclerViewAdapter(
-                this,
-                DummyContent.ITEMS,
-                twoPane
-            )
+    private fun setupSeekBar() {
+        seek_bar_time_of_refreshing.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                sharedPreferences.edit().putInt(KEY_REFRESHING_PERIOD, p1).apply()
+                var progress = (0.6 * p1).toInt()
+                if (progress > 60) progress = 60
+                if (progress < 1) progress = 1
+                text_view_period_of_refreshing_label.text = String.format(getString(R.string.period_of_refreshing_label), progress)
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+            }
+        })
+        seek_bar_time_of_refreshing.progress = if (sharedPreferences.contains(KEY_REFRESHING_PERIOD)) {
+            sharedPreferences.getInt(KEY_REFRESHING_PERIOD, 30)
+        } else {
+            30 //default value of refreshing period (percent from minutes)
+        }
     }
 
-    class SimpleItemRecyclerViewAdapter(
-        private val parentActivity: ItemListActivity,
-        private val values: List<DummyContent.DummyItem>,
-        private val twoPane: Boolean
-    ) :
-        RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
+    private fun setupRecyclerView(recyclerView: RecyclerView) {
+        adapter = PriceListAdapter(this)
+        recyclerView.adapter = adapter
 
-        private val onClickListener: View.OnClickListener
-
-        init {
-            onClickListener = View.OnClickListener { v ->
-                val item = v.tag as DummyContent.DummyItem
-                if (twoPane) {
-                    val fragment = ItemDetailFragment().apply {
-                        arguments = Bundle().apply {
-                            putString(ItemDetailFragment.ARG_ITEM_ID, item.id)
-                        }
-                    }
-                    parentActivity.supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.item_detail_container, fragment)
-                        .commit()
-                } else {
-                    val intent = Intent(v.context, ItemDetailActivity::class.java).apply {
-                        putExtra(ItemDetailFragment.ARG_ITEM_ID, item.id)
-                    }
-                    v.context.startActivity(intent)
-                }
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_list_content, parent, false)
-            return ViewHolder(view)
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val item = values[position]
-            holder.idView.text = item.id
-            holder.contentView.text = item.content
-
-            with(holder.itemView) {
-                tag = item
-                setOnClickListener(onClickListener)
-            }
-        }
-
-        override fun getItemCount() = values.size
-
-        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val idView: TextView = view.id_text
-            val contentView: TextView = view.content
-        }
     }
 
     override fun onDestroy() {
