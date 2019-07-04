@@ -2,6 +2,7 @@ package com.example.cryptocurrency
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -9,8 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.example.cryptocurrency.api.ApiFactory
 
 import com.example.cryptocurrency.dummy.DummyContent
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_item_list.*
 import kotlinx.android.synthetic.main.item_list_content.view.*
 import kotlinx.android.synthetic.main.item_list.*
@@ -25,16 +30,31 @@ import kotlinx.android.synthetic.main.item_list.*
  */
 class ItemListActivity : AppCompatActivity() {
 
+    companion object {
+        const val TAG = "ItemListActivity"
+    }
+
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
     private var twoPane: Boolean = false
+    private var disposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
-
+        disposable = ApiFactory.apiService.getTopCoinsInfo(limit = 20)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                val coins = it.listOfCoins
+                for (coinData in coins) {
+                    Log.d(TAG, coinData.coinInfo?.fullName?:"Not found")
+                }
+            }, {
+                Log.d(TAG, it.message?:"Unknown error")
+            })
         setSupportActionBar(toolbar)
         toolbar.title = title
 
@@ -112,5 +132,10 @@ class ItemListActivity : AppCompatActivity() {
             val idView: TextView = view.id_text
             val contentView: TextView = view.content
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable?.dispose()
     }
 }
