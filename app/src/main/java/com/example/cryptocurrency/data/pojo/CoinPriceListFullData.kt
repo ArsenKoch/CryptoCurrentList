@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class CoinPriceFullData {
+class CoinPriceListFullData {
     @SerializedName("RAW")
     @Expose
     var coinPriceInfoJSONObject: JsonObject? = null

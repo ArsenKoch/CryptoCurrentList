@@ -2,14 +2,10 @@ package com.example.cryptocurrency.api
 
 import com.example.cryptocurrency.BuildConfig
 import com.example.cryptocurrency.data.pojo.CoinInfoFullData
-import com.example.cryptocurrency.data.pojo.CoinPriceFullData
-import com.google.gson.JsonObject
+import com.example.cryptocurrency.data.pojo.CoinPriceListFullData
 import io.reactivex.Observable
-import io.reactivex.Single
-import org.json.JSONObject
 import retrofit2.http.GET
 import retrofit2.http.Query
-import java.util.*
 
 interface ApiService {
 
@@ -38,5 +34,5 @@ interface ApiService {
         @Query(QUERY_PARAMS_FROM_SYMBOLS) listOfFromSymbols: String,
         @Query(QUERY_PARAMS_TO_SYMBOLS) listOfToSymbols: String = CURRENCY_RUR,
         @Query(QUERY_PARAMS_API_KEY) apiKey: String = BuildConfig.API_KEY
-    ): Observable<CoinPriceFullData>
+    ): Observable<CoinPriceListFullData>
 }

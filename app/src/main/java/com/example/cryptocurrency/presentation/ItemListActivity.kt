@@ -1,4 +1,4 @@
-package com.example.cryptocurrency
+package com.example.cryptocurrency.presentation
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.example.cryptocurrency.R
 import com.example.cryptocurrency.api.ApiFactory
 
 import com.example.cryptocurrency.dummy.DummyContent
@@ -30,10 +33,6 @@ import kotlinx.android.synthetic.main.item_list.*
  */
 class ItemListActivity : AppCompatActivity() {
 
-    companion object {
-        const val TAG = "ItemListActivity"
-    }
-
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -41,18 +40,12 @@ class ItemListActivity : AppCompatActivity() {
     private var twoPane: Boolean = false
     private var disposable: Disposable? = null
 
+    private lateinit var coinPriceViewModel: CoinPriceViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
-        disposable = ApiFactory.apiService.getFullPriceList("BTC,ETH")
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                Log.d(TAG, it.coinPriceInfoJSONObject.toString())
-                Log.d(TAG, it.coinPriceDisplayInfoJSONObject.toString())
-            }, {
-                Log.d(TAG, it.message ?: "Unknown error")
-            })
+        coinPriceViewModel = ViewModelProviders.of(this).get(CoinPriceViewModel::class.java)
         setSupportActionBar(toolbar)
         toolbar.title = title
 
@@ -70,10 +63,21 @@ class ItemListActivity : AppCompatActivity() {
         }
 
         setupRecyclerView(item_list)
+        coinPriceViewModel.loadData()
+        coinPriceViewModel.getFullPriceList().observe(this, Observer {
+            for (priceInfo in it) {
+                Log.d("Loaded Success", priceInfo.fromSymbol)
+            }
+        })
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, twoPane)
+        recyclerView.adapter =
+            SimpleItemRecyclerViewAdapter(
+                this,
+                DummyContent.ITEMS,
+                twoPane
+            )
     }
 
     class SimpleItemRecyclerViewAdapter(
