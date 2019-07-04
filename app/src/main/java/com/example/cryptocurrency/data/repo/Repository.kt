@@ -1,6 +1,7 @@
 package com.example.cryptocurrency.data.repo
 
 import android.app.Application
+import android.content.Context
 import android.os.AsyncTask
 import android.util.Log
 import com.example.cryptocurrency.api.ApiFactory
@@ -11,7 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.lang.StringBuilder
 
-class Repository(application: Application) {
+class Repository(context: Context) {
 
     companion object {
         const val TAG = "Repository"
@@ -19,7 +20,7 @@ class Repository(application: Application) {
 
     private val compositeDisposable = CompositeDisposable()
 
-    private val db: AppDatabase = AppDatabase.getInstance(application)
+    private val db: AppDatabase = AppDatabase.getInstance(context)
     private val coinPriceInfoDao = db.coinPriceInfoDao()
     private val coinPriceDataToDisplayDao = db.coinPriceDataToDisplayDao()
 

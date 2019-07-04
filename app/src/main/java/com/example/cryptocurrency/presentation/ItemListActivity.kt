@@ -17,8 +17,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.cryptocurrency.R
+import com.example.cryptocurrency.data.repo.ServiceOfLoadingData
+import com.example.cryptocurrency.presentation.App.Companion.KEY_REFRESHING_PERIOD
+import com.example.cryptocurrency.presentation.App.Companion.SHARED_PREFS_NAME
 
-import com.example.cryptocurrency.dummy.DummyContent
 import com.example.cryptocurrency.presentation.adapters.PriceListAdapter
 import com.example.cryptocurrency.presentation.utils.PriceDiffUtilsCallback
 import io.reactivex.disposables.Disposable
@@ -36,11 +38,6 @@ import java.util.prefs.Preferences
  * item details side-by-side using two vertical panes.
  */
 class ItemListActivity : AppCompatActivity() {
-
-    companion object {
-        const val SHARED_PREFS_NAME = "main prefs"
-        const val KEY_REFRESHING_PERIOD = "refreshing period"
-    }
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -66,14 +63,14 @@ class ItemListActivity : AppCompatActivity() {
             // activity should be in two-pane mode.
             twoPane = true
         }
-
         setupRecyclerView(item_list)
         setupSeekBar()
-        coinPriceViewModel.loadData()
         coinPriceViewModel.getFullPriceList().observe(this, Observer {
             adapter.submitList(it)
         })
     }
+
+
 
     private fun setupSeekBar() {
         seek_bar_time_of_refreshing.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
