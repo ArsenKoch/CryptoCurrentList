@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.cryptocurrency.BuildConfig
 import com.example.cryptocurrency.R
 import com.example.cryptocurrency.data.pojo.CoinPriceInfo
 import kotlinx.android.synthetic.main.item_list_content.view.*
@@ -37,12 +39,14 @@ class PriceListAdapter(private val context: Context) : RecyclerView.Adapter<Pric
         holder.textViewPrice.text = priceInfo.price
         holder.textViewSymbols.text =
             String.format(context.getString(R.string.text_view_label_symbols), priceInfo.fromSymbol, priceInfo.toSymbol)
+        Glide.with(context).load(BuildConfig.BASE_IMAGES_URL + priceInfo.imageUrl).into(holder.imageViewLogoCoins)
     }
 
     inner class CoinPriceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textViewSymbols = itemView.text_view_symbols
         val textViewPrice = itemView.text_view_price
         val textViewLastUpdated = itemView.text_view_last_update
+        val imageViewLogoCoins = itemView.image_view_logo_coin
     }
 
     private fun getTimeHMS(timestamp: Long): String {

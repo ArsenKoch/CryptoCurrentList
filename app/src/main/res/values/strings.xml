@@ -4,4 +4,5 @@
     <string name="period_of_refreshing_label">Период обновления: %s с.</string>
     <string name="text_view_label_symbols">%s / %s</string>
     <string name="last_update_label">Время последнего обновления: %s</string>
+    <string name="logo_coins_description">Logo coins</string>
 </resources>
