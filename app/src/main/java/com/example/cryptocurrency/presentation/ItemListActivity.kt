@@ -57,8 +57,6 @@ class ItemListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_item_list)
         sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
         coinPriceViewModel = ViewModelProviders.of(this).get(CoinPriceViewModel::class.java)
-        setSupportActionBar(toolbar)
-        toolbar.title = title
 
         if (item_detail_container != null) {
             // The detail container view will be present only in the
@@ -71,7 +69,7 @@ class ItemListActivity : AppCompatActivity() {
         setupRecyclerView(item_list)
         setupSeekBar()
         coinPriceViewModel.loadData()
-        coinPriceViewModel.getPriceListToDisplay().observe(this, Observer {
+        coinPriceViewModel.getFullPriceList().observe(this, Observer {
             adapter.priceList = it
         })
     }
@@ -79,10 +77,13 @@ class ItemListActivity : AppCompatActivity() {
     private fun setupSeekBar() {
         seek_bar_time_of_refreshing.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                sharedPreferences.edit().putInt(KEY_REFRESHING_PERIOD, p1).apply()
                 var progress = (0.6 * p1).toInt()
                 if (progress > 60) progress = 60
-                if (progress < 1) progress = 1
+                if (progress < 1) {
+                    seek_bar_time_of_refreshing.progress = 1
+                    progress = 1
+                }
+                sharedPreferences.edit().putInt(KEY_REFRESHING_PERIOD, p1).apply()
                 text_view_period_of_refreshing_label.text = String.format(getString(R.string.period_of_refreshing_label), progress)
             }
 

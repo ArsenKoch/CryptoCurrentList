@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptocurrency.R
 import com.example.cryptocurrency.data.pojo.CoinPriceDisplayInfo
+import com.example.cryptocurrency.data.pojo.CoinPriceInfo
 import kotlinx.android.synthetic.main.item_list_content.view.*
 
 
 class PriceListAdapter(private val context: Context): RecyclerView.Adapter<PriceListAdapter.CoinPriceViewHolder>() {
 
-    var priceList: List<CoinPriceDisplayInfo> = listOf()
+    var priceList: List<CoinPriceInfo> = listOf()
     set(value) {
         field = value
         notifyDataSetChanged()
