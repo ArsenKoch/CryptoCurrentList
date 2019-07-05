@@ -11,6 +11,10 @@ interface CoinInfoDao {
     @Query("SELECT * FROM coins")
     fun getAllCoins(): List<CoinInfo>
 
+    @Query("SELECT name FROM coins")
+    fun getAllCoinsNames(): List<String>
+
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCoins(coins: List<CoinInfo>)
 }

@@ -12,14 +12,4 @@ class CoinPriceViewModel(application: Application): AndroidViewModel(application
     fun getPriceListToDisplay() = repository.priceListToDisplay
     fun getFullInfoAboutCoin(symbol: String) = repository.getFullInfoAboutCoin(symbol)
     fun getInfoAboutCoinToDisplay(symbol: String) = repository.getInfoAboutCoinToDisplay(symbol)
-
-    //TODO: remove this method
-    fun loadData() {
-        repository.loadData()
-    }
-
-    override fun onCleared() {
-        repository.clearResources()
-        super.onCleared()
-    }
 }

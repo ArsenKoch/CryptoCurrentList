@@ -1,4 +1,4 @@
-package com.example.cryptocurrency.presentation.utils
+package com.example.cryptocurrency.presentation.adapters
 
 import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
