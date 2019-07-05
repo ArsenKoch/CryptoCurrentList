@@ -80,6 +80,26 @@ class ItemListActivity : AppCompatActivity() {
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         adapter = PriceListAdapter(this, PriceDiffUtilsCallback())
+        adapter.onItemClickListener = {
+            if (twoPane) {
+                val fragment = ItemDetailFragment().apply {
+                    arguments = Bundle().apply {
+                        putString(
+                            ItemDetailFragment.ARG_ITEM_ID,
+                            it.fromSymbol
+                        )
+                    }
+                }
+
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.item_detail_container, fragment)
+                    .commit()
+            } else {
+                val intent = Intent(this, ItemDetailActivity::class.java)
+                intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, it.fromSymbol)
+                startActivity(intent)
+            }
+        }
         recyclerView.adapter = adapter
         recyclerView.itemAnimator = null
     }
