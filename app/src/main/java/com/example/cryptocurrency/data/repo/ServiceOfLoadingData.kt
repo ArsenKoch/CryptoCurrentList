@@ -38,6 +38,8 @@ class ServiceOfLoadingData : Service() {
     private val handler = Handler()
     private var timer: Runnable? = null
 
+    private var coinsName: List<String>? = null
+
     companion object {
         const val TAG = "ServiceOfLoadingData"
         const val FOREGROUND_SERVICE_ID = 1
@@ -68,11 +70,11 @@ class ServiceOfLoadingData : Service() {
             }
         }
         preferences = getSharedPreferences(App.SHARED_PREFS_NAME, Context.MODE_PRIVATE)
-        preferences.registerOnSharedPreferenceChangeListener(prefsChangeListener)
         if (preferences.contains(App.KEY_REFRESHING_PERIOD)) {
             val periodPercent = preferences.getInt(App.KEY_REFRESHING_PERIOD, 30)
             timeout = convertPeriodFromPercentToSeconds(periodPercent)
         }
+        preferences.registerOnSharedPreferenceChangeListener(prefsChangeListener)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -87,7 +89,7 @@ class ServiceOfLoadingData : Service() {
             }
         }
         timer?.let { handler.post(it) }
-        notificationBuilder.setContentText("fsdfs00")
+        notificationBuilder.setContentText(String.format(getString(R.string.last_update_label), getTimeHMSFromTimestamp(System.currentTimeMillis(), true)))
         notificationBuilder.setContentTitle(String.format(getString(R.string.period_of_refreshing_label), timeout))
         notificationBuilder.setSmallIcon(android.R.drawable.sym_def_app_icon)
         startForeground(FOREGROUND_SERVICE_ID, notificationBuilder.build())
@@ -105,17 +107,24 @@ class ServiceOfLoadingData : Service() {
     }
 
     fun loadData() {
-        val disposable = ApiFactory.apiService.getTopCoinsInfo(20)
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
-            .subscribe({
-                db.coinInfoDao().insertCoins(it.listOfCoins.map { it.coinInfo })
-                val symbols = db.coinInfoDao().getAllCoinsNames()
-                loadPriceList(symbols)
-            },{
-                Log.d(TAG, it.message ?: "Unknown error")
-            })
-        compositeDisposable.add(disposable)
+        if (coinsName.isNullOrEmpty()) {
+            val disposable = ApiFactory.apiService.getTopCoinsInfo(20)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe({
+                    db.coinInfoDao().insertCoins(it.listOfCoins.map { it.coinInfo })
+                    val symbols = db.coinInfoDao().getAllCoinsNames()
+                    coinsName = symbols
+                    loadPriceList(symbols)
+                }, {
+                    Log.d(TAG, it.message ?: "Unknown error")
+                })
+            compositeDisposable.add(disposable)
+        } else {
+            coinsName?.let {
+                loadPriceList(it)
+            }
+        }
     }
 
     private fun loadPriceList(symbols: List<String?>) {
@@ -130,18 +139,6 @@ class ServiceOfLoadingData : Service() {
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({
-                val listOfDisplayPriceInfo = mutableListOf<CoinPriceDisplayInfo>()
-                val coinPriceDisplayInfoJSONObject = it.coinPriceDisplayInfoJSONObject
-                coinPriceDisplayInfoJSONObject?.apply {
-                    for (key in keySet()) {
-                        val infoJsonObject = getAsJsonObject(key)
-                        for (currency in infoJsonObject.keySet()) {
-                            val priceInfo = Gson().fromJson(infoJsonObject.getAsJsonObject(currency), CoinPriceDisplayInfo::class.java)
-                            listOfDisplayPriceInfo.add(priceInfo)
-                        }
-                    }
-                }
-                db.coinPriceDataToDisplayDao().insertPriceListToDisplay(listOfDisplayPriceInfo)
                 val listOfFullPriceInfo = mutableListOf<CoinPriceInfo>()
                 val coinPriceInfoJSONObject = it.coinPriceInfoJSONObject
                 coinPriceInfoJSONObject?.apply {
