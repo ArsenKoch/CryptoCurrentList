@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     tools:text="Последнее обновление: 12 сентября"
-                    android:text="@string/last_update_label"
+                    android:text="@string/last_update_label_with_placeholder"
                     android:layout_margin="@dimen/text_margin"
                     android:textSize="14sp"
                     android:textAppearance="?attr/textAppearanceListItem"/>

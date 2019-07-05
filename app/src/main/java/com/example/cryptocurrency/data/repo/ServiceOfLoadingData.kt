@@ -13,7 +13,6 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.cryptocurrency.R
 import com.example.cryptocurrency.api.ApiFactory
-import com.example.cryptocurrency.data.pojo.CoinPriceDisplayInfo
 import com.example.cryptocurrency.data.pojo.CoinPriceInfo
 import com.example.cryptocurrency.presentation.App
 import com.example.cryptocurrency.presentation.utils.convertPeriodFromPercentToSeconds
@@ -21,7 +20,6 @@ import com.example.cryptocurrency.presentation.utils.getTimeHMSFromTimestamp
 import com.google.gson.Gson
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import okhttp3.internal.notify
 import java.lang.StringBuilder
 
 class ServiceOfLoadingData : Service() {
@@ -89,7 +87,7 @@ class ServiceOfLoadingData : Service() {
             }
         }
         timer?.let { handler.post(it) }
-        notificationBuilder.setContentText(String.format(getString(R.string.last_update_label), getTimeHMSFromTimestamp(System.currentTimeMillis(), true)))
+        notificationBuilder.setContentText(String.format(getString(R.string.last_update_label_with_placeholder), getTimeHMSFromTimestamp(System.currentTimeMillis(), true)))
         notificationBuilder.setContentTitle(String.format(getString(R.string.period_of_refreshing_label), timeout))
         notificationBuilder.setSmallIcon(R.drawable.ic_stat_name)
         startForeground(FOREGROUND_SERVICE_ID, notificationBuilder.build())
@@ -151,7 +149,7 @@ class ServiceOfLoadingData : Service() {
                     }
                 }
                 db.coinPriceInfoDao().insertFullPriceList(listOfFullPriceInfo)
-                notificationBuilder.setContentText(String.format(getString(R.string.last_update_label), getTimeHMSFromTimestamp(System.currentTimeMillis(), true)))
+                notificationBuilder.setContentText(String.format(getString(R.string.last_update_label_with_placeholder), getTimeHMSFromTimestamp(System.currentTimeMillis(), true)))
                 notificationManager?.notify(FOREGROUND_SERVICE_ID, notificationBuilder.build())
             }, {
                 Log.d(TAG, it.message ?: "Unknown error")

@@ -26,7 +26,7 @@ class PriceListAdapter(private val context: Context, diffUtilCallBack: PriceDiff
     override fun onBindViewHolder(holder: CoinPriceViewHolder, position: Int) {
         val priceInfo = getItem(position)
         holder.textViewLastUpdated.text =
-            String.format(context.getString(R.string.last_update_label), getTimeHMSFromTimestamp(priceInfo.lastUpdate?.times(1000) ?: 0))
+            String.format(context.getString(R.string.last_update_label_with_placeholder), getTimeHMSFromTimestamp(priceInfo.lastUpdate?.times(1000) ?: 0))
         holder.textViewPrice.text = priceInfo.price
         holder.textViewSymbols.text =
             String.format(context.getString(R.string.text_view_label_symbols), priceInfo.fromSymbol, priceInfo.toSymbol)
