@@ -91,7 +91,7 @@ class ServiceOfLoadingData : Service() {
         timer?.let { handler.post(it) }
         notificationBuilder.setContentText(String.format(getString(R.string.last_update_label), getTimeHMSFromTimestamp(System.currentTimeMillis(), true)))
         notificationBuilder.setContentTitle(String.format(getString(R.string.period_of_refreshing_label), timeout))
-        notificationBuilder.setSmallIcon(android.R.drawable.sym_def_app_icon)
+        notificationBuilder.setSmallIcon(R.drawable.ic_stat_name)
         startForeground(FOREGROUND_SERVICE_ID, notificationBuilder.build())
         return super.onStartCommand(intent, flags, startId)
     }

@@ -1,15 +1,18 @@
 package com.example.cryptocurrency.presentation
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.SeekBar
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.cryptocurrency.R
+import com.example.cryptocurrency.data.repo.ServiceOfLoadingData
 import com.example.cryptocurrency.presentation.App.Companion.KEY_REFRESHING_PERIOD
 import com.example.cryptocurrency.presentation.App.Companion.SHARED_PREFS_NAME
 import com.example.cryptocurrency.presentation.adapters.PriceListAdapter
@@ -22,17 +25,18 @@ import kotlinx.android.synthetic.main.item_list.*
 class ItemListActivity : AppCompatActivity() {
 
     private var twoPane: Boolean = false
-    private var disposable: Disposable? = null
 
     private lateinit var adapter: PriceListAdapter
     private lateinit var coinPriceViewModel: CoinPriceViewModel
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var serviceLoadingIntent: Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
         sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
         coinPriceViewModel = ViewModelProviders.of(this).get(CoinPriceViewModel::class.java)
+        serviceLoadingIntent = Intent(this, ServiceOfLoadingData::class.java)
 
         if (item_detail_container != null) {
             twoPane = true
@@ -42,9 +46,16 @@ class ItemListActivity : AppCompatActivity() {
         coinPriceViewModel.getFullPriceList().observe(this, Observer {
             adapter.submitList(it)
         })
+        switchLoadingService(serviceLoadingIntent, true)
     }
 
-
+    private fun switchLoadingService(serviceIntent: Intent, shouldTurnOn: Boolean) {
+        if (shouldTurnOn) {
+            ContextCompat.startForegroundService(this, serviceIntent)
+        } else {
+            stopService(serviceIntent)
+        }
+    }
 
     private fun setupSeekBar() {
         seek_bar_time_of_refreshing.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -75,7 +86,7 @@ class ItemListActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        switchLoadingService(serviceLoadingIntent, false)
         super.onDestroy()
-        disposable?.dispose()
     }
 }
