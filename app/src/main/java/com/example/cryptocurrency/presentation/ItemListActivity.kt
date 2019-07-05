@@ -37,7 +37,6 @@ class ItemListActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
         coinPriceViewModel = ViewModelProviders.of(this).get(CoinPriceViewModel::class.java)
         serviceLoadingIntent = Intent(this, ServiceOfLoadingData::class.java)
-
         if (item_detail_container != null) {
             twoPane = true
         }
