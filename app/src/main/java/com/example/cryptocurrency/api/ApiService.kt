@@ -11,7 +11,6 @@ interface ApiService {
 
     companion object {
         private const val QUERY_PARAMS_LIMIT = "limit"
-        private const val QUERY_PARAMS_API_KEY = "api_key"
         private const val QUERY_PARAMS_TO_SYMBOL = "tsym"
         private const val QUERY_PARAMS_TO_SYMBOLS = "tsyms"
         private const val QUERY_PARAMS_FROM_SYMBOL = "fsym"
@@ -25,14 +24,12 @@ interface ApiService {
     @GET("top/totalvolfull")
     fun getTopCoinsInfo(
         @Query(QUERY_PARAMS_LIMIT) limit: Int = 10,
-        @Query(QUERY_PARAMS_TO_SYMBOL) tsym: String = CURRENCY_USD,
-        @Query(QUERY_PARAMS_API_KEY) apiKey: String = BuildConfig.API_KEY
+        @Query(QUERY_PARAMS_TO_SYMBOL) tsym: String = CURRENCY_USD
     ): Observable<CoinInfoFullData>
 
     @GET("pricemultifull")
     fun getFullPriceList(
         @Query(QUERY_PARAMS_FROM_SYMBOLS) listOfFromSymbols: String,
-        @Query(QUERY_PARAMS_TO_SYMBOLS) listOfToSymbols: String = CURRENCY_USD,
-        @Query(QUERY_PARAMS_API_KEY) apiKey: String = BuildConfig.API_KEY
+        @Query(QUERY_PARAMS_TO_SYMBOLS) listOfToSymbols: String = CURRENCY_USD
     ): Observable<CoinPriceListFullData>
 }

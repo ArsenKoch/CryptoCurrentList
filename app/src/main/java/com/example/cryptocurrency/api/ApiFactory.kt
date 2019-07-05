@@ -2,9 +2,9 @@ package com.example.cryptocurrency.api
 
 import com.example.cryptocurrency.BuildConfig
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
 
@@ -17,7 +17,15 @@ object ApiFactory {
     }
 
 
-    private val client = OkHttpClient.Builder().addInterceptor(interceptor).build();
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(interceptor)
+        .authenticator(object : Authenticator {
+            override fun authenticate(route: Route?, response: Response): Request? {
+                return Request.Builder()
+                    .addHeader("authorization", BuildConfig.API_KEY).build()
+            }
+        })
+        .build()
 
     private val retrofit: Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
