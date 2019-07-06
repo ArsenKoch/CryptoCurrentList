@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.SeekBar
@@ -42,6 +43,11 @@ class CoinsListActivity : AppCompatActivity() {
         setupRecyclerView(item_list)
         setupSeekBar()
         coinsInfoViewModel.getPriceList().observe(this, Observer {
+            if (it.isEmpty()) {
+                progress_bar_loading.visibility = View.VISIBLE
+            } else {
+                progress_bar_loading.visibility = View.GONE
+            }
             adapter.submitList(it)
         })
         switchLoadingService(serviceLoadingIntent, true)
