@@ -2,6 +2,7 @@ package com.example.cryptocurrency.domain
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -16,6 +17,7 @@ import com.example.cryptocurrency.domain.api.ApiFactory
 import com.example.cryptocurrency.data.pojo.CoinPriceInfo
 import com.example.cryptocurrency.data.AppDatabase
 import com.example.cryptocurrency.presentation.App
+import com.example.cryptocurrency.presentation.screens.CoinsListActivity
 import com.example.cryptocurrency.utils.convertPercentOfMinutesToSeconds
 import com.example.cryptocurrency.utils.getTimeHMSFromTimestamp
 import com.google.gson.Gson
@@ -27,6 +29,7 @@ class ServiceOfLoadingData : Service() {
 
     private val compositeDisposable = CompositeDisposable()
     private lateinit var notificationBuilder: NotificationCompat.Builder
+    private lateinit var pendingIntent: PendingIntent
     private var notificationManager: NotificationManager? = null
 
     private lateinit var db: AppDatabase
@@ -56,8 +59,11 @@ class ServiceOfLoadingData : Service() {
             )
         }
         db = AppDatabase.getInstance(this)
+        val intent = Intent(this, CoinsListActivity::class.java)
+        pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationBuilder = NotificationCompat.Builder(this,
+        notificationBuilder = NotificationCompat.Builder(
+            this,
             NOTIFICATION_CHANNEL_ID
         )
         prefsChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { prefs, _ ->
@@ -65,7 +71,12 @@ class ServiceOfLoadingData : Service() {
                 if (it.contains(App.KEY_REFRESHING_PERIOD)) {
                     val periodPercent = it.getInt(App.KEY_REFRESHING_PERIOD, 30)
                     timeout = convertPercentOfMinutesToSeconds(periodPercent)
-                    notificationBuilder.setContentTitle(String.format(getString(R.string.period_of_refreshing_label), timeout))
+                    notificationBuilder.setContentTitle(
+                        String.format(
+                            getString(R.string.period_of_refreshing_label),
+                            timeout
+                        )
+                    )
                     notificationManager?.notify(FOREGROUND_SERVICE_ID, notificationBuilder.build())
                 }
             }
@@ -90,9 +101,15 @@ class ServiceOfLoadingData : Service() {
             }
         }
         timer?.let { handler.post(it) }
-        notificationBuilder.setContentText(String.format(getString(R.string.last_update_label_with_placeholder), getTimeHMSFromTimestamp(System.currentTimeMillis(), true)))
-        notificationBuilder.setContentTitle(String.format(getString(R.string.period_of_refreshing_label), timeout))
-        notificationBuilder.setSmallIcon(R.drawable.ic_notification_coin)
+        notificationBuilder.setContentText(
+            String.format(
+                getString(R.string.last_update_label_with_placeholder),
+                getTimeHMSFromTimestamp(System.currentTimeMillis(), true)
+            )
+        )
+            .setContentTitle(String.format(getString(R.string.period_of_refreshing_label), timeout))
+            .setSmallIcon(R.drawable.ic_notification_coin)
+            .setContentIntent(pendingIntent)
         startForeground(FOREGROUND_SERVICE_ID, notificationBuilder.build())
         return super.onStartCommand(intent, flags, startId)
     }
@@ -146,13 +163,19 @@ class ServiceOfLoadingData : Service() {
                     for (key in keySet()) {
                         val infoJsonObject = getAsJsonObject(key)
                         for (currency in infoJsonObject.keySet()) {
-                            val priceInfo = Gson().fromJson(infoJsonObject.getAsJsonObject(currency), CoinPriceInfo::class.java)
+                            val priceInfo =
+                                Gson().fromJson(infoJsonObject.getAsJsonObject(currency), CoinPriceInfo::class.java)
                             listOfFullPriceInfo.add(priceInfo)
                         }
                     }
                 }
                 db.coinPriceInfoDao().insertPriceList(listOfFullPriceInfo)
-                notificationBuilder.setContentText(String.format(getString(R.string.last_update_label_with_placeholder), getTimeHMSFromTimestamp(System.currentTimeMillis(), true)))
+                notificationBuilder.setContentText(
+                    String.format(
+                        getString(R.string.last_update_label_with_placeholder),
+                        getTimeHMSFromTimestamp(System.currentTimeMillis(), true)
+                    )
+                )
                 notificationManager?.notify(FOREGROUND_SERVICE_ID, notificationBuilder.build())
             }, {
                 Log.d(TAG, it.message ?: "Unknown error")
