@@ -4,7 +4,7 @@ import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun convertPeriodFromPercentToSeconds(periodPercent: Int): Int {
+fun convertPercentOfMinutesToSeconds(periodPercent: Int): Int {
     val periodSeconds = (0.6 * periodPercent).toInt()
     if (periodSeconds > 60) return 60
     if (periodSeconds < 1) return 1

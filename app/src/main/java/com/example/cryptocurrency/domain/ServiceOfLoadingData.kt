@@ -16,7 +16,7 @@ import com.example.cryptocurrency.domain.api.ApiFactory
 import com.example.cryptocurrency.data.pojo.CoinPriceInfo
 import com.example.cryptocurrency.data.AppDatabase
 import com.example.cryptocurrency.presentation.App
-import com.example.cryptocurrency.utils.convertPeriodFromPercentToSeconds
+import com.example.cryptocurrency.utils.convertPercentOfMinutesToSeconds
 import com.example.cryptocurrency.utils.getTimeHMSFromTimestamp
 import com.google.gson.Gson
 import io.reactivex.disposables.CompositeDisposable
@@ -64,7 +64,7 @@ class ServiceOfLoadingData : Service() {
             prefs?.let {
                 if (it.contains(App.KEY_REFRESHING_PERIOD)) {
                     val periodPercent = it.getInt(App.KEY_REFRESHING_PERIOD, 30)
-                    timeout = convertPeriodFromPercentToSeconds(periodPercent)
+                    timeout = convertPercentOfMinutesToSeconds(periodPercent)
                     notificationBuilder.setContentTitle(String.format(getString(R.string.period_of_refreshing_label), timeout))
                     notificationManager?.notify(FOREGROUND_SERVICE_ID, notificationBuilder.build())
                 }
@@ -73,7 +73,7 @@ class ServiceOfLoadingData : Service() {
         preferences = getSharedPreferences(App.SHARED_PREFS_NAME, Context.MODE_PRIVATE)
         if (preferences.contains(App.KEY_REFRESHING_PERIOD)) {
             val periodPercent = preferences.getInt(App.KEY_REFRESHING_PERIOD, 30)
-            timeout = convertPeriodFromPercentToSeconds(periodPercent)
+            timeout = convertPercentOfMinutesToSeconds(periodPercent)
         }
         preferences.registerOnSharedPreferenceChangeListener(prefsChangeListener)
     }
@@ -92,7 +92,7 @@ class ServiceOfLoadingData : Service() {
         timer?.let { handler.post(it) }
         notificationBuilder.setContentText(String.format(getString(R.string.last_update_label_with_placeholder), getTimeHMSFromTimestamp(System.currentTimeMillis(), true)))
         notificationBuilder.setContentTitle(String.format(getString(R.string.period_of_refreshing_label), timeout))
-        notificationBuilder.setSmallIcon(R.drawable.ic_stat_name)
+        notificationBuilder.setSmallIcon(R.drawable.ic_notification_coin)
         startForeground(FOREGROUND_SERVICE_ID, notificationBuilder.build())
         return super.onStartCommand(intent, flags, startId)
     }

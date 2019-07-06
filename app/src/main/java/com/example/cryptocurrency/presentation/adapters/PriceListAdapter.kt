@@ -11,7 +11,7 @@ import com.example.cryptocurrency.BuildConfig
 import com.example.cryptocurrency.R
 import com.example.cryptocurrency.data.pojo.CoinPriceInfo
 import com.example.cryptocurrency.utils.getTimeHMSFromTimestamp
-import kotlinx.android.synthetic.main.item_list_content.view.*
+import kotlinx.android.synthetic.main.item_coins_list_content.view.*
 
 
 class PriceListAdapter(private val context: Context, diffUtilCallBack: PriceDiffUtilsCallback) : ListAdapter<CoinPriceInfo, PriceListAdapter.CoinPriceViewHolder>(diffUtilCallBack) {
@@ -19,7 +19,7 @@ class PriceListAdapter(private val context: Context, diffUtilCallBack: PriceDiff
     var onItemClickListener: ((CoinPriceInfo) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinPriceViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_list_content, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_coins_list_content, parent, false)
         return CoinPriceViewHolder(view)
     }
 

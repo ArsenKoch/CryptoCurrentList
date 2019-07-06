@@ -13,7 +13,7 @@ import com.example.cryptocurrency.R
 import com.example.cryptocurrency.data.pojo.CoinPriceInfo
 import com.example.cryptocurrency.presentation.viewmodels.CoinsInfoViewModel
 import com.example.cryptocurrency.utils.getTimeHMSFromTimestamp
-import kotlinx.android.synthetic.main.item_detail.*
+import kotlinx.android.synthetic.main.fragment_coin_detail.*
 
 class CoinDetailFragment : Fragment() {
 
@@ -24,7 +24,7 @@ class CoinDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProviders.of(this).get(CoinsInfoViewModel::class.java)
-        return inflater.inflate(R.layout.item_detail, container, false)
+        return inflater.inflate(R.layout.fragment_coin_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

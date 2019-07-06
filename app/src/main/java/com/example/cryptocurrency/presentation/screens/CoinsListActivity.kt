@@ -17,9 +17,9 @@ import com.example.cryptocurrency.presentation.App.Companion.SHARED_PREFS_NAME
 import com.example.cryptocurrency.presentation.adapters.PriceListAdapter
 import com.example.cryptocurrency.presentation.adapters.PriceDiffUtilsCallback
 import com.example.cryptocurrency.presentation.viewmodels.CoinsInfoViewModel
-import com.example.cryptocurrency.utils.convertPeriodFromPercentToSeconds
-import kotlinx.android.synthetic.main.activity_item_list.*
-import kotlinx.android.synthetic.main.item_list.*
+import com.example.cryptocurrency.utils.convertPercentOfMinutesToSeconds
+import kotlinx.android.synthetic.main.activity_coins_list.*
+import kotlinx.android.synthetic.main.coins_list.*
 
 class CoinsListActivity : AppCompatActivity() {
 
@@ -32,7 +32,7 @@ class CoinsListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_item_list)
+        setContentView(R.layout.activity_coins_list)
         sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
         coinsInfoViewModel = ViewModelProviders.of(this).get(CoinsInfoViewModel::class.java)
         serviceLoadingIntent = Intent(this, ServiceOfLoadingData::class.java)
@@ -58,7 +58,7 @@ class CoinsListActivity : AppCompatActivity() {
     private fun setupSeekBar() {
         seek_bar_time_of_refreshing.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                val progress = convertPeriodFromPercentToSeconds(p1)
+                val progress = convertPercentOfMinutesToSeconds(p1)
                 sharedPreferences.edit().putInt(KEY_REFRESHING_PERIOD, p1).apply()
                 text_view_period_of_refreshing_label.text = String.format(getString(R.string.period_of_refreshing_label), progress)
             }
@@ -74,7 +74,7 @@ class CoinsListActivity : AppCompatActivity() {
         } else {
             50 //default value of refreshing period (percent from minutes)
         }
-        text_view_period_of_refreshing_label.text = String.format(getString(R.string.period_of_refreshing_label), convertPeriodFromPercentToSeconds(seek_bar_time_of_refreshing.progress))
+        text_view_period_of_refreshing_label.text = String.format(getString(R.string.period_of_refreshing_label), convertPercentOfMinutesToSeconds(seek_bar_time_of_refreshing.progress))
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
