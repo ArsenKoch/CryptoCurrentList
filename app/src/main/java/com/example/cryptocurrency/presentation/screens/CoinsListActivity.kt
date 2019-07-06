@@ -1,4 +1,4 @@
-package com.example.cryptocurrency.presentation
+package com.example.cryptocurrency.presentation.screens
 
 import android.content.Context
 import android.content.Intent
@@ -16,16 +16,17 @@ import com.example.cryptocurrency.presentation.App.Companion.KEY_REFRESHING_PERI
 import com.example.cryptocurrency.presentation.App.Companion.SHARED_PREFS_NAME
 import com.example.cryptocurrency.presentation.adapters.PriceListAdapter
 import com.example.cryptocurrency.presentation.adapters.PriceDiffUtilsCallback
+import com.example.cryptocurrency.presentation.viewmodels.CoinsInfoViewModel
 import com.example.cryptocurrency.utils.convertPeriodFromPercentToSeconds
 import kotlinx.android.synthetic.main.activity_item_list.*
 import kotlinx.android.synthetic.main.item_list.*
 
-class ItemListActivity : AppCompatActivity() {
+class CoinsListActivity : AppCompatActivity() {
 
     private var twoPane: Boolean = false
 
     private lateinit var adapter: PriceListAdapter
-    private lateinit var coinPriceViewModel: CoinPriceViewModel
+    private lateinit var coinsInfoViewModel: CoinsInfoViewModel
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var serviceLoadingIntent: Intent
 
@@ -33,14 +34,14 @@ class ItemListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
         sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
-        coinPriceViewModel = ViewModelProviders.of(this).get(CoinPriceViewModel::class.java)
+        coinsInfoViewModel = ViewModelProviders.of(this).get(CoinsInfoViewModel::class.java)
         serviceLoadingIntent = Intent(this, ServiceOfLoadingData::class.java)
         if (item_detail_container != null) {
             twoPane = true
         }
         setupRecyclerView(item_list)
         setupSeekBar()
-        coinPriceViewModel.getFullPriceList().observe(this, Observer {
+        coinsInfoViewModel.getPriceList().observe(this, Observer {
             adapter.submitList(it)
         })
         switchLoadingService(serviceLoadingIntent, true)
@@ -80,10 +81,10 @@ class ItemListActivity : AppCompatActivity() {
         adapter = PriceListAdapter(this, PriceDiffUtilsCallback())
         adapter.onItemClickListener = {
             if (twoPane) {
-                val fragment = ItemDetailFragment().apply {
+                val fragment = CoinDetailFragment().apply {
                     arguments = Bundle().apply {
                         putString(
-                            ItemDetailFragment.ARG_ITEM_ID,
+                            CoinDetailFragment.ARG_ITEM_ID,
                             it.fromSymbol
                         )
                     }
@@ -93,8 +94,8 @@ class ItemListActivity : AppCompatActivity() {
                     .replace(R.id.item_detail_container, fragment)
                     .commit()
             } else {
-                val intent = Intent(this, ItemDetailActivity::class.java)
-                intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, it.fromSymbol)
+                val intent = Intent(this, CoinDetailActivity::class.java)
+                intent.putExtra(CoinDetailFragment.ARG_ITEM_ID, it.fromSymbol)
                 startActivity(intent)
             }
         }

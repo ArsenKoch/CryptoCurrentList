@@ -1,7 +1,7 @@
 package com.example.cryptocurrency.domain.api
 
-import com.example.cryptocurrency.data.pojo.CoinInfoFullData
-import com.example.cryptocurrency.data.pojo.CoinPriceListFullData
+import com.example.cryptocurrency.data.pojo.CoinInfoListOfData
+import com.example.cryptocurrency.data.pojo.CoinPriceInfoRawData
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -24,11 +24,11 @@ interface ApiService {
     fun getTopCoinsInfo(
         @Query(QUERY_PARAMS_LIMIT) limit: Int = 10,
         @Query(QUERY_PARAMS_TO_SYMBOL) tsym: String = CURRENCY_USD
-    ): Observable<CoinInfoFullData>
+    ): Observable<CoinInfoListOfData>
 
     @GET("pricemultifull")
     fun getFullPriceList(
         @Query(QUERY_PARAMS_FROM_SYMBOLS) listOfFromSymbols: String,
         @Query(QUERY_PARAMS_TO_SYMBOLS) listOfToSymbols: String = CURRENCY_USD
-    ): Observable<CoinPriceListFullData>
+    ): Observable<CoinPriceInfoRawData>
 }

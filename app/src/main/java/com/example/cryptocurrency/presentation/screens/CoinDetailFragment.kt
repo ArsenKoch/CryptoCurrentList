@@ -1,4 +1,4 @@
-package com.example.cryptocurrency.presentation
+package com.example.cryptocurrency.presentation.screens
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,18 +11,19 @@ import com.bumptech.glide.Glide
 import com.example.cryptocurrency.BuildConfig
 import com.example.cryptocurrency.R
 import com.example.cryptocurrency.data.pojo.CoinPriceInfo
+import com.example.cryptocurrency.presentation.viewmodels.CoinsInfoViewModel
 import com.example.cryptocurrency.utils.getTimeHMSFromTimestamp
 import kotlinx.android.synthetic.main.item_detail.*
 
-class ItemDetailFragment : Fragment() {
+class CoinDetailFragment : Fragment() {
 
-    private lateinit var viewModel: CoinPriceViewModel
+    private lateinit var viewModel: CoinsInfoViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this).get(CoinPriceViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(CoinsInfoViewModel::class.java)
         return inflater.inflate(R.layout.item_detail, container, false)
     }
 
@@ -31,7 +32,7 @@ class ItemDetailFragment : Fragment() {
         arguments?.let {
             if (it.containsKey(ARG_ITEM_ID)) {
                 val coinId = it.getString(ARG_ITEM_ID)?:""
-                viewModel.getFullInfoAboutCoin(coinId).observe(this, Observer {
+                viewModel.getPriceInfoAboutCoin(coinId).observe(this, Observer {
                     showCoinIfoDetails(it)
                 })
             }

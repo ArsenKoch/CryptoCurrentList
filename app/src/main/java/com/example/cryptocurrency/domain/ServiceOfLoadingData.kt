@@ -151,7 +151,7 @@ class ServiceOfLoadingData : Service() {
                         }
                     }
                 }
-                db.coinPriceInfoDao().insertFullPriceList(listOfFullPriceInfo)
+                db.coinPriceInfoDao().insertPriceList(listOfFullPriceInfo)
                 notificationBuilder.setContentText(String.format(getString(R.string.last_update_label_with_placeholder), getTimeHMSFromTimestamp(System.currentTimeMillis(), true)))
                 notificationManager?.notify(FOREGROUND_SERVICE_ID, notificationBuilder.build())
             }, {

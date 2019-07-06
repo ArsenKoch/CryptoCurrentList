@@ -6,6 +6,6 @@
                                                      android:layout_width="match_parent"
                                                      android:layout_height="match_parent"
                                                      android:fitsSystemWindows="true"
-                                                     tools:context=".presentation.ItemDetailActivity"
+                                                     tools:context=".presentation.screens.CoinDetailActivity"
                                                      tools:ignore="MergeRootFrame"/>
 

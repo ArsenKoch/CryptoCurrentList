@@ -1,23 +1,21 @@
-package com.example.cryptocurrency.presentation
+package com.example.cryptocurrency.presentation.screens
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cryptocurrency.R
-import kotlinx.android.synthetic.main.activity_item_detail.*
 
-class ItemDetailActivity : AppCompatActivity() {
+class CoinDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_detail)
 
         if (savedInstanceState == null) {
-            val fragment = ItemDetailFragment().apply {
+            val fragment = CoinDetailFragment().apply {
                 arguments = Bundle().apply {
                     putString(
-                        ItemDetailFragment.ARG_ITEM_ID,
-                        intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID)
+                        CoinDetailFragment.ARG_ITEM_ID,
+                        intent.getStringExtra(CoinDetailFragment.ARG_ITEM_ID)
                     )
                 }
             }

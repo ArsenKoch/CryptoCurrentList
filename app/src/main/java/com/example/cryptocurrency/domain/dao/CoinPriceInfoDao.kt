@@ -8,13 +8,13 @@ import androidx.room.Query
 import com.example.cryptocurrency.data.pojo.CoinPriceInfo
 
 @Dao
-interface CoinPriceFullDataDao {
+interface CoinPriceInfoDao {
     @Query("SELECT * FROM full_price_list ORDER BY lastUpdate DESC")
     fun getPriceList(): LiveData<List<CoinPriceInfo>>
 
     @Query("SELECT * FROM full_price_list WHERE fromSymbol == :symbol")
-    fun getFullPriceInfoAboutCoin(symbol: String): LiveData<CoinPriceInfo>
+    fun getPriceInfoAboutCoin(symbol: String): LiveData<CoinPriceInfo>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertFullPriceList(priceList: List<CoinPriceInfo>)
+    fun insertPriceList(priceList: List<CoinPriceInfo>)
 }

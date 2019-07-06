@@ -1,7 +1,6 @@
 package com.example.cryptocurrency.data
 
 import android.content.Context
-import com.example.cryptocurrency.data.AppDatabase
 
 class Repository(context: Context) {
 
@@ -9,5 +8,5 @@ class Repository(context: Context) {
     private val coinPriceInfoDao = db.coinPriceInfoDao()
 
     val fullPriceList = coinPriceInfoDao.getPriceList()
-    fun getFullInfoAboutCoin(symbol: String) = coinPriceInfoDao.getFullPriceInfoAboutCoin(symbol)
+    fun getPriceInfoAboutCoin(symbol: String) = coinPriceInfoDao.getPriceInfoAboutCoin(symbol)
 }

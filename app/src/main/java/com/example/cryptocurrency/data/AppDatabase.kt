@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.cryptocurrency.domain.dao.CoinInfoDao
-import com.example.cryptocurrency.domain.dao.CoinPriceFullDataDao
+import com.example.cryptocurrency.domain.dao.CoinPriceInfoDao
 import com.example.cryptocurrency.data.pojo.CoinInfo
 import com.example.cryptocurrency.data.pojo.CoinPriceInfo
 
@@ -26,6 +26,6 @@ abstract class AppDatabase: RoomDatabase() {
         }
     }
 
-    abstract fun coinPriceInfoDao(): CoinPriceFullDataDao
+    abstract fun coinPriceInfoDao(): CoinPriceInfoDao
     abstract fun coinInfoDao(): CoinInfoDao
 }
