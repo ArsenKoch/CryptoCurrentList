@@ -45,23 +45,24 @@ class ServiceOfLoadingData : Service() {
     companion object {
         const val TAG = "ServiceOfLoadingData"
         const val FOREGROUND_SERVICE_ID = 1
-        const val NOTIFICATION_CHANNEL_ID = "channel loading data id"
-        const val NOTIFICATION_CHANNEL_NAME = "channel loading data name"
+        const val NOTIFICATION_CHANNEL_ID = "channel_loading_data_id"
+        const val NOTIFICATION_CHANNEL_NAME = "channel_loading_data_name"
     }
 
     override fun onCreate() {
         super.onCreate()
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel(
+            val channel = NotificationChannel(
                 NOTIFICATION_CHANNEL_ID,
                 NOTIFICATION_CHANNEL_NAME,
                 NotificationManager.IMPORTANCE_HIGH
             )
+            notificationManager?.createNotificationChannel(channel)
         }
         db = AppDatabase.getInstance(this)
         val intent = Intent(this, CoinsListActivity::class.java)
         pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
-        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationBuilder = NotificationCompat.Builder(
             this,
             NOTIFICATION_CHANNEL_ID
