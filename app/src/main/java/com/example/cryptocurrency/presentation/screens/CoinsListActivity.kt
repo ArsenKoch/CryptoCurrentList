@@ -76,7 +76,7 @@ class CoinsListActivity : AppCompatActivity() {
             }
         })
         seek_bar_time_of_refreshing.progress = if (sharedPreferences.contains(KEY_REFRESHING_PERIOD)) {
-            (sharedPreferences.getInt(KEY_REFRESHING_PERIOD, 50) * 10) / 6
+            (sharedPreferences.getInt(KEY_REFRESHING_PERIOD, 50))
         } else {
             50 //default value of refreshing period (percent from minutes)
         }

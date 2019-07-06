@@ -14,15 +14,18 @@ abstract class AppDatabase: RoomDatabase() {
     companion object {
         private const val DB_NAME = "main.db"
         private var db: AppDatabase? = null
+        private val LOCK = Any()
         fun getInstance(context: Context): AppDatabase {
-            db?.let { return it }
-            val instance = Room.databaseBuilder(context, AppDatabase::class.java,
-                DB_NAME
-            ).
-                fallbackToDestructiveMigration()
-                .build()
-            db = instance
-            return instance
+            synchronized(LOCK) {
+                db?.let { return it }
+                val instance = Room.databaseBuilder(
+                    context, AppDatabase::class.java,
+                    DB_NAME
+                ).fallbackToDestructiveMigration()
+                    .build()
+                db = instance
+                return instance
+            }
         }
     }
 
