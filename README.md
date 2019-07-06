@@ -2,6 +2,12 @@
 
 Мобильное приложение с несколькими экранами работающими в формате master-detail. Отображающее информацию из открытого API (курсы криптовалют)
 
+![alt text](https://github.com/sumin93/CryptoCurrency/blob/master/Screenshot_2019-07-06-22-51-41.jpg)
+
+![alt text](https://github.com/sumin93/CryptoCurrency/blob/master/Screenshot_2019-07-06-22-51-47.jpg)
+
+![alt text](https://github.com/sumin93/CryptoCurrency/blob/master/Screenshot_2019-07-06-22-52-28.jpg)
+
 Приложение содержит:
 foreground service. Отвечает за периодическое обновление данных в приложении, уведомление сервиса должно отображать текущее значение периода обновления и время получения последнего успешного ответа от сервера с точностью до миллисекунд;
 master fragment. Содержит компонент SeekBar который позволяет управлять периодом обновления данных - от 1 до 60 сек. Отображает список элементов полученный с сервера в RecyclerView с использованием DiffUtil для обновления списка;
