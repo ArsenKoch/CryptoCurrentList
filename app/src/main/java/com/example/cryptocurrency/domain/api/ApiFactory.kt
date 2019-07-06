@@ -1,4 +1,4 @@
-package com.example.cryptocurrency.api
+package com.example.cryptocurrency.domain.api
 
 import com.example.cryptocurrency.BuildConfig
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

@@ -1,6 +1,5 @@
-package com.example.cryptocurrency.api
+package com.example.cryptocurrency.domain.api
 
-import com.example.cryptocurrency.BuildConfig
 import com.example.cryptocurrency.data.pojo.CoinInfoFullData
 import com.example.cryptocurrency.data.pojo.CoinPriceListFullData
 import io.reactivex.Observable

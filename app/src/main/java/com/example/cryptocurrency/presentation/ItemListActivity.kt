@@ -7,18 +7,16 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.cryptocurrency.R
-import com.example.cryptocurrency.data.repo.ServiceOfLoadingData
+import com.example.cryptocurrency.domain.ServiceOfLoadingData
 import com.example.cryptocurrency.presentation.App.Companion.KEY_REFRESHING_PERIOD
 import com.example.cryptocurrency.presentation.App.Companion.SHARED_PREFS_NAME
 import com.example.cryptocurrency.presentation.adapters.PriceListAdapter
 import com.example.cryptocurrency.presentation.adapters.PriceDiffUtilsCallback
-import com.example.cryptocurrency.presentation.utils.convertPeriodFromPercentToSeconds
-import io.reactivex.disposables.Disposable
+import com.example.cryptocurrency.utils.convertPeriodFromPercentToSeconds
 import kotlinx.android.synthetic.main.activity_item_list.*
 import kotlinx.android.synthetic.main.item_list.*
 

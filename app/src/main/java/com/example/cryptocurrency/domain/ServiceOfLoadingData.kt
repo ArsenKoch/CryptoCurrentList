@@ -1,4 +1,4 @@
-package com.example.cryptocurrency.data.repo
+package com.example.cryptocurrency.domain
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -12,11 +12,12 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.cryptocurrency.R
-import com.example.cryptocurrency.api.ApiFactory
+import com.example.cryptocurrency.domain.api.ApiFactory
 import com.example.cryptocurrency.data.pojo.CoinPriceInfo
+import com.example.cryptocurrency.data.AppDatabase
 import com.example.cryptocurrency.presentation.App
-import com.example.cryptocurrency.presentation.utils.convertPeriodFromPercentToSeconds
-import com.example.cryptocurrency.presentation.utils.getTimeHMSFromTimestamp
+import com.example.cryptocurrency.utils.convertPeriodFromPercentToSeconds
+import com.example.cryptocurrency.utils.getTimeHMSFromTimestamp
 import com.google.gson.Gson
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -56,7 +57,9 @@ class ServiceOfLoadingData : Service() {
         }
         db = AppDatabase.getInstance(this)
         notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationBuilder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+        notificationBuilder = NotificationCompat.Builder(this,
+            NOTIFICATION_CHANNEL_ID
+        )
         prefsChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { prefs, _ ->
             prefs?.let {
                 if (it.contains(App.KEY_REFRESHING_PERIOD)) {

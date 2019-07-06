@@ -31,7 +31,7 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.example.cryptocurrency.presentation.ItemListActivity"/>
         </activity>
-        <service android:name=".data.repo.ServiceOfLoadingData"/>
+        <service android:name=".domain.ServiceOfLoadingData"/>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.example.cryptocurrency.presentation.utils
+package com.example.cryptocurrency.utils
 
 import java.sql.Timestamp
 import java.text.SimpleDateFormat

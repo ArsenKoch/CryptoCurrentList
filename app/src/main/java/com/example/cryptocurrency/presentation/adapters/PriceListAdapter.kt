@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.cryptocurrency.BuildConfig
 import com.example.cryptocurrency.R
 import com.example.cryptocurrency.data.pojo.CoinPriceInfo
-import com.example.cryptocurrency.presentation.utils.getTimeHMSFromTimestamp
+import com.example.cryptocurrency.utils.getTimeHMSFromTimestamp
 import kotlinx.android.synthetic.main.item_list_content.view.*
 
 

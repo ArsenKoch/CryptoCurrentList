@@ -5,14 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.example.cryptocurrency.BuildConfig
 import com.example.cryptocurrency.R
 import com.example.cryptocurrency.data.pojo.CoinPriceInfo
-import com.example.cryptocurrency.presentation.utils.getTimeHMSFromTimestamp
+import com.example.cryptocurrency.utils.getTimeHMSFromTimestamp
 import kotlinx.android.synthetic.main.item_detail.*
 
 class ItemDetailFragment : Fragment() {

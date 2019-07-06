@@ -8,7 +8,4 @@ class CoinPriceListFullData {
     @SerializedName("RAW")
     @Expose
     var coinPriceInfoJSONObject: JsonObject? = null
-    @SerializedName("DISPLAY")
-    @Expose
-    var coinPriceDisplayInfoJSONObject: JsonObject? = null
 }

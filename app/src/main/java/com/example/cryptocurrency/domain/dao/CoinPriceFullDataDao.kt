@@ -1,4 +1,4 @@
-package com.example.cryptocurrency.data.dao
+package com.example.cryptocurrency.domain.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
