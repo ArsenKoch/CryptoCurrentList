@@ -2,13 +2,12 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 33
-    buildToolsVersion "29.0.0"
     defaultConfig {
         applicationId "com.example.cryptocurrency"
         minSdkVersion 21
@@ -28,11 +27,27 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    viewBinding{
+        enabled true
+    }
+
+
+    subprojects {
+        project.configurations.all {
+            resolutionStrategy.eachDependency { details ->
+                if (details.requested.group == 'com.android.support'
+                        && !details.requested.name.contains('multidex') ) {
+                    details.useVersion "version which should be used - in your case 26.0.0-beta2"
+                }
+            }
+        }
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.20"
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -51,7 +66,7 @@ dependencies {
 //    implementation "androidx.lifecycle:lifecycle-common-java8:1.7.0"
 
     implementation "androidx.room:room-runtime:2.4.3"
-    kapt "androidx.room:room-compiler:1.5.0" // For Kotlin use kapt instead of annotationProcessor
+    kapt "androidx.room:room-compiler:2.4.3" // For Kotlin use kapt instead of annotationProcessor
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.4.3"
     // optional - RxJava support for Room

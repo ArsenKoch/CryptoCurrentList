@@ -130,7 +130,7 @@ class ServiceOfLoadingData : Service() {
             val disposable = ApiFactory.apiService.getTopCoinsInfo(20)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .subscribe({
+                .subscribe({ it ->
                     db.coinInfoDao().insertCoins(it.listOfCoins.map { it.coinInfo })
                     val symbols = db.coinInfoDao().getAllCoinsNames()
                     coinsName = symbols
@@ -148,7 +148,7 @@ class ServiceOfLoadingData : Service() {
 
     private fun loadPriceList(symbols: List<String?>) {
         val symbolsBuilder = StringBuilder()
-        for (i in 0 until symbols.size) {
+        for (i in symbols.indices) {
             symbolsBuilder.append(symbols[i])
             if (i != symbols.size - 1) {
                 symbolsBuilder.append(",")

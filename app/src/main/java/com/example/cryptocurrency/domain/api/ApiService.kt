@@ -15,8 +15,6 @@ interface ApiService {
         private const val QUERY_PARAMS_FROM_SYMBOLS = "fsyms"
 
         private const val CURRENCY_USD = "USD"
-        private const val CURRENCY_EUR = "EUR"
-        private const val CURRENCY_RUR = "RUR"
     }
 
     @GET("top/totalvolfull")
