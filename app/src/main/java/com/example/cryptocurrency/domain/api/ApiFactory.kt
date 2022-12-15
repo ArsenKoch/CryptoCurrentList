@@ -16,13 +16,15 @@ object ApiFactory {
         interceptor.level = HttpLoggingInterceptor.Level.BODY
     }
 
+    const val API_KEY = "API KEY"
+
 
     private val client = OkHttpClient.Builder()
         .addInterceptor(interceptor)
         .authenticator(object : Authenticator {
-            override fun authenticate(route: Route?, response: Response): Request? {
+            override fun authenticate(route: Route?, response: Response): Request {
                 return Request.Builder()
-                    .addHeader("authorization", BuildConfig.API_KEY).build()
+                    .addHeader("authorization", API_KEY).build()
             }
         })
         .build()

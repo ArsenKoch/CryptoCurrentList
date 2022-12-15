@@ -32,7 +32,7 @@ class CoinDetailFragment : Fragment() {
         arguments?.let {
             if (it.containsKey(ARG_ITEM_ID)) {
                 val coinId = it.getString(ARG_ITEM_ID)?:""
-                viewModel.getPriceInfoAboutCoin(coinId).observe(this, Observer {
+                viewModel.getPriceInfoAboutCoin(coinId).observe(viewLifecycleOwner, Observer {
                     showCoinIfoDetails(it)
                 })
             }
@@ -40,7 +40,7 @@ class CoinDetailFragment : Fragment() {
     }
 
     private fun showCoinIfoDetails(coinPriceInfo: CoinPriceInfo) {
-        Glide.with(this).load(BuildConfig.BASE_IMAGES_URL + coinPriceInfo.imageUrl).into(image_view_logo_coin)
+//        Glide.with(this).load(BuildConfig.BASE_IMAGES_URL + coinPriceInfo.imageUrl).into(image_view_logo_coin)
         text_view_from_symbol.text = coinPriceInfo.fromSymbol
         text_view_to_symbol.text = coinPriceInfo.toSymbol
         text_view_price.text = coinPriceInfo.price
