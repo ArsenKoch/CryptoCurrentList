@@ -35,7 +35,7 @@ class CoinsListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coins_list)
         sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
-        coinsInfoViewModel = ViewModelProviders.of(this).get(CoinsInfoViewModel::class.java)
+        coinsInfoViewModel = ViewModelProviders.of(this)[CoinsInfoViewModel::class.java]
         serviceLoadingIntent = Intent(this, ServiceOfLoadingData::class.java)
         if (item_detail_container != null) {
             twoPane = true
