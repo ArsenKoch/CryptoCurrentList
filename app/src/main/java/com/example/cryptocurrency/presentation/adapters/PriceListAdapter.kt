@@ -9,15 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cryptocurrency.BuildConfig
 import com.example.cryptocurrency.R
-import com.example.cryptocurrency.data.model.CoinPriceInfo
+import com.example.cryptocurrency.data.network.model.CoinInfoDto
 import com.example.cryptocurrency.utils.PriceDiffUtilsCallback
 import com.example.cryptocurrency.utils.getTimeHMSFromTimestamp
 
 
 class PriceListAdapter(private val context: Context, diffUtilCallBack: PriceDiffUtilsCallback) :
-    ListAdapter<CoinPriceInfo, PriceListAdapter.CoinPriceViewHolder>(diffUtilCallBack) {
+    ListAdapter<CoinInfoDto, PriceListAdapter.CoinPriceViewHolder>(diffUtilCallBack) {
 
-    var onItemClickListener: ((CoinPriceInfo) -> Unit)? = null
+    var onItemClickListener: ((CoinInfoDto) -> Unit)? = null
 
 //    lateinit var binding: ItemCoinsListContentBinding
 

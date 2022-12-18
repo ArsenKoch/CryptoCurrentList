@@ -2,7 +2,6 @@ package com.example.cryptocurrency.presentation.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.example.cryptocurrency.data.Repository
 
 class CoinsInfoViewModel(application: Application): AndroidViewModel(application) {
 

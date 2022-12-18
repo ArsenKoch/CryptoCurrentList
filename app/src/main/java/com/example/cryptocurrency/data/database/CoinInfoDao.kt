@@ -1,20 +1,20 @@
 package com.example.cryptocurrency.data.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.cryptocurrency.data.model.CoinInfo
+import com.example.cryptocurrency.data.network.model.CoinInfoDto
 
 @Dao
 interface CoinInfoDao {
-    @Query("SELECT * FROM coins")
-    fun getAllCoins(): List<CoinInfo>
+    @Query("SELECT * FROM full_price_list ORDER BY lastUpdate DESC")
+    fun getPriceList(): LiveData<List<CoinInfoDbModel>>
 
-    @Query("SELECT name FROM coins")
-    fun getAllCoinsNames(): List<String>
-
+    @Query("SELECT * FROM full_price_list WHERE fromSymbol == :symbol")
+    fun getPriceInfoAboutCoin(symbol: String): LiveData<CoinInfoDbModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCoins(coins: List<CoinInfo>)
+    fun insertPriceList(priceList: List<CoinInfoDbModel>)
 }

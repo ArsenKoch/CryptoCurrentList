@@ -14,7 +14,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.cryptocurrency.R
 import com.example.cryptocurrency.data.network.ApiFactory
-import com.example.cryptocurrency.data.model.CoinPriceInfo
+import com.example.cryptocurrency.data.network.model.CoinInfoDto
 import com.example.cryptocurrency.data.database.AppDatabase
 import com.example.cryptocurrency.presentation.App
 import com.example.cryptocurrency.presentation.screens.CoinsListActivity
@@ -129,7 +129,7 @@ class ServiceOfLoadingData : Service() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe({ it ->
-                    db.coinInfoDao().insertCoins(it.listOfCoins.map { it.coinInfo })
+                    db.coinInfoDao().insertCoins(it.coinNameContainerDtos.map { it.coinNameDto })
                     val symbols = db.coinInfoDao().getAllCoinsNames()
                     coinsName = symbols
                     loadPriceList(symbols)
@@ -156,14 +156,14 @@ class ServiceOfLoadingData : Service() {
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({
-                val listOfFullPriceInfo = mutableListOf<CoinPriceInfo>()
-                val coinPriceInfoJSONObject = it.coinPriceInfoJSONObject
+                val listOfFullPriceInfo = mutableListOf<CoinInfoDto>()
+                val coinPriceInfoJSONObject = it.json
                 coinPriceInfoJSONObject?.apply {
                     for (key in keySet()) {
                         val infoJsonObject = getAsJsonObject(key)
                         for (currency in infoJsonObject.keySet()) {
                             val priceInfo =
-                                Gson().fromJson(infoJsonObject.getAsJsonObject(currency), CoinPriceInfo::class.java)
+                                Gson().fromJson(infoJsonObject.getAsJsonObject(currency), CoinInfoDto::class.java)
                             listOfFullPriceInfo.add(priceInfo)
                         }
                     }
