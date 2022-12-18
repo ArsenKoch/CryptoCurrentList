@@ -1,4 +1,4 @@
-package com.example.cryptocurrency.domain
+package com.example.cryptocurrency.utils
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -13,13 +13,11 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.cryptocurrency.R
-import com.example.cryptocurrency.domain.api.ApiFactory
-import com.example.cryptocurrency.data.pojo.CoinPriceInfo
-import com.example.cryptocurrency.data.AppDatabase
+import com.example.cryptocurrency.data.network.ApiFactory
+import com.example.cryptocurrency.data.model.CoinPriceInfo
+import com.example.cryptocurrency.data.database.AppDatabase
 import com.example.cryptocurrency.presentation.App
 import com.example.cryptocurrency.presentation.screens.CoinsListActivity
-import com.example.cryptocurrency.utils.convertPercentOfMinutesToSeconds
-import com.example.cryptocurrency.utils.getTimeHMSFromTimestamp
 import com.google.gson.Gson
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

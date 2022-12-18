@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.bumptech.glide.Glide
-import com.example.cryptocurrency.BuildConfig
 import com.example.cryptocurrency.R
-import com.example.cryptocurrency.data.pojo.CoinPriceInfo
+import com.example.cryptocurrency.data.model.CoinPriceInfo
 import com.example.cryptocurrency.presentation.viewmodels.CoinsInfoViewModel
 import com.example.cryptocurrency.utils.getTimeHMSFromTimestamp
 import kotlinx.android.synthetic.main.fragment_coin_detail.*
@@ -40,7 +38,7 @@ class CoinDetailFragment : Fragment() {
     }
 
     private fun showCoinIfoDetails(coinPriceInfo: CoinPriceInfo) {
-//        Glide.with(this).load(BuildConfig.BASE_IMAGES_URL + coinPriceInfo.imageUrl).into(image_view_logo_coin)
+        Glide.with(this).load(BuildConfig.BASE_IMAGES_URL + coinPriceInfo.imageUrl).into(image_view_logo_coin)
         text_view_from_symbol.text = coinPriceInfo.fromSymbol
         text_view_to_symbol.text = coinPriceInfo.toSymbol
         text_view_price.text = coinPriceInfo.price

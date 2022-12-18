@@ -1,4 +1,4 @@
-package com.example.cryptocurrency.data.pojo
+package com.example.cryptocurrency.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

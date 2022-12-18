@@ -12,11 +12,11 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.cryptocurrency.R
-import com.example.cryptocurrency.domain.ServiceOfLoadingData
+import com.example.cryptocurrency.utils.ServiceOfLoadingData
 import com.example.cryptocurrency.presentation.App.Companion.KEY_REFRESHING_PERIOD
 import com.example.cryptocurrency.presentation.App.Companion.SHARED_PREFS_NAME
 import com.example.cryptocurrency.presentation.adapters.PriceListAdapter
-import com.example.cryptocurrency.presentation.adapters.PriceDiffUtilsCallback
+import com.example.cryptocurrency.utils.PriceDiffUtilsCallback
 import com.example.cryptocurrency.presentation.viewmodels.CoinsInfoViewModel
 import com.example.cryptocurrency.utils.convertPercentOfMinutesToSeconds
 import kotlinx.android.synthetic.main.activity_coins_list.*

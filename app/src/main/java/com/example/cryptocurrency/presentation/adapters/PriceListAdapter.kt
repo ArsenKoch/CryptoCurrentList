@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cryptocurrency.BuildConfig
 import com.example.cryptocurrency.R
-import com.example.cryptocurrency.data.pojo.CoinPriceInfo
+import com.example.cryptocurrency.data.model.CoinPriceInfo
+import com.example.cryptocurrency.utils.PriceDiffUtilsCallback
 import com.example.cryptocurrency.utils.getTimeHMSFromTimestamp
 
 
@@ -45,7 +46,7 @@ class PriceListAdapter(private val context: Context, diffUtilCallBack: PriceDiff
     }
 
     inner class CoinPriceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textViewSymbols = itemView.text_view_symbols
+        val textViewSymbols = itemView.text_view_sy mbols
         val textViewPrice = itemView.text_view_price
         val textViewLastUpdated = itemView.text_view_last_update
         val imageViewLogoCoins = itemView.image_view_logo_coin

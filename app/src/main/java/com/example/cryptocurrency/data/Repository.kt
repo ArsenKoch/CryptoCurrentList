@@ -1,6 +1,7 @@
 package com.example.cryptocurrency.data
 
 import android.content.Context
+import com.example.cryptocurrency.data.database.AppDatabase
 
 class Repository(context: Context) {
 

@@ -1,4 +1,4 @@
-package com.example.cryptocurrency.data.pojo
+package com.example.cryptocurrency.data.model
 
 import com.google.gson.JsonObject
 import com.google.gson.annotations.Expose

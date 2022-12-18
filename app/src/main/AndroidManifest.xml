@@ -33,7 +33,7 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.example.cryptocurrency.presentation.screens.CoinsListActivity"/>
         </activity>
-        <service android:name=".domain.ServiceOfLoadingData"/>
+        <service android:name=".utils.ServiceOfLoadingData"/>
     </application>
 
 </manifest>

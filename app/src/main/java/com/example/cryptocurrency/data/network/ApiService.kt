@@ -1,7 +1,7 @@
-package com.example.cryptocurrency.domain.api
+package com.example.cryptocurrency.data.network
 
-import com.example.cryptocurrency.data.pojo.CoinInfoListOfData
-import com.example.cryptocurrency.data.pojo.CoinPriceInfoRawData
+import com.example.cryptocurrency.data.model.CoinInfoListOfData
+import com.example.cryptocurrency.data.model.CoinPriceInfoRawData
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
