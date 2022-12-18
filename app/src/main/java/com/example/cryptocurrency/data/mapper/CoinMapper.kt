@@ -44,7 +44,7 @@ class CoinMapper {
         }?.joinTosTring(",") ?: ""
     }
 
-    fun mapDbModelToEntity(dbModel: CoinInfoDbModel):CoinInfo = CoinInfo(
+    fun mapDbModelToEntity(dbModel: CoinInfoDbModel): CoinInfo = CoinInfo(
         lastMarket = dbModel.lastMarket,
         toSymbol = dbModel.toSymbol,
         fromSymbol = dbModel.fromSymbol,

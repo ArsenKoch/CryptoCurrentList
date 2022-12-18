@@ -1,39 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.cryptocurrency">
+    package="com.example.cryptocurrency">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-            android:name=".presentation.App"
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
         <activity
-                android:launchMode="singleTop"
-                android:name=".presentation.screens.CoinsListActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".presentation.screens.CoinsListActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-                android:name=".presentation.screens.CoinDetailActivity"
-                android:label="@string/title_item_detail"
-                android:parentActivityName=".presentation.screens.CoinsListActivity"
-                android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.example.cryptocurrency.presentation.screens.CoinsListActivity"/>
-        </activity>
-        <service android:name=".utils.ServiceOfLoadingData"/>
+        <activity android:name=".presentation.screens.CoinDetailActivity" />
     </application>
-
 </manifest>
