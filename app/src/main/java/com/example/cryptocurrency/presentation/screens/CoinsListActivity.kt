@@ -15,7 +15,7 @@ import com.example.cryptocurrency.R
 import com.example.cryptocurrency.utils.ServiceOfLoadingData
 import com.example.cryptocurrency.presentation.App.Companion.KEY_REFRESHING_PERIOD
 import com.example.cryptocurrency.presentation.App.Companion.SHARED_PREFS_NAME
-import com.example.cryptocurrency.presentation.adapters.PriceListAdapter
+import com.example.cryptocurrency.presentation.adapters.CoinInfoAdapter
 import com.example.cryptocurrency.utils.PriceDiffUtilsCallback
 import com.example.cryptocurrency.presentation.viewmodels.CoinInfoViewModel
 import com.example.cryptocurrency.utils.convertPercentOfMinutesToSeconds
@@ -26,7 +26,7 @@ class CoinsListActivity : AppCompatActivity() {
 
     private var twoPane: Boolean = false
 
-    private lateinit var adapter: PriceListAdapter
+    private lateinit var adapter: CoinInfoAdapter
     private lateinit var coinInfoViewModel: CoinInfoViewModel
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var serviceLoadingIntent: Intent
@@ -84,8 +84,8 @@ class CoinsListActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        adapter = PriceListAdapter(this, PriceDiffUtilsCallback())
-        adapter.onItemClickListener = {
+        adapter = CoinInfoAdapter(this, PriceDiffUtilsCallback())
+        adapter.onCoinClickListener = {
             if (twoPane) {
                 val fragment = CoinDetailFragment().apply {
                     arguments = Bundle().apply {
