@@ -10,4 +10,6 @@
     <string name="label_min_day">Минимум за день:</string>
     <string name="label_max_day">Максимум за день:</string>
     <string name="label_market">Последняя сделка:</string>
+    <string name="logo">logo</string>
+    <string name="symbol">/</string>
 </resources>

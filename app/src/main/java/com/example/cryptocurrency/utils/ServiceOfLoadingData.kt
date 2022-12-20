@@ -17,7 +17,7 @@ import com.example.cryptocurrency.data.network.ApiFactory
 import com.example.cryptocurrency.data.network.model.CoinInfoDto
 import com.example.cryptocurrency.data.database.AppDatabase
 import com.example.cryptocurrency.presentation.App
-import com.example.cryptocurrency.presentation.screens.CoinsListActivity
+import com.example.cryptocurrency.presentation.screens.CoinInfoListActivity
 import com.google.gson.Gson
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -59,7 +59,7 @@ class ServiceOfLoadingData : Service() {
             notificationManager?.createNotificationChannel(channel)
         }
         db = AppDatabase.getInstance(this)
-        val intent = Intent(this, CoinsListActivity::class.java)
+        val intent = Intent(this, CoinInfoListActivity::class.java)
         pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
         notificationBuilder = NotificationCompat.Builder(
             this,
