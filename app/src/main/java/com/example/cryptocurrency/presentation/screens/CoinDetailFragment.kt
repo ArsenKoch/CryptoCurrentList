@@ -9,19 +9,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.cryptocurrency.R
 import com.example.cryptocurrency.data.network.model.CoinInfoDto
-import com.example.cryptocurrency.presentation.viewmodels.CoinsInfoViewModel
+import com.example.cryptocurrency.presentation.viewmodels.CoinInfoViewModel
 import com.example.cryptocurrency.utils.getTimeHMSFromTimestamp
 import kotlinx.android.synthetic.main.fragment_coin_detail.*
 
 class CoinDetailFragment : Fragment() {
 
-    private lateinit var viewModel: CoinsInfoViewModel
+    private lateinit var viewModel: CoinInfoViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this).get(CoinsInfoViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(CoinInfoViewModel::class.java)
         return inflater.inflate(R.layout.fragment_coin_detail, container, false)
     }
 

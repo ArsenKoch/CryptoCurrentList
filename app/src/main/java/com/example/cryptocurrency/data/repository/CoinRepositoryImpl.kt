@@ -45,12 +45,9 @@ class CoinRepositoryImpl(
             val fromSyms = mapper.mapNameListToString(topCoins)
             val jsonCont = apiService.getFullPriceList(listOfFromSymbols = fromSyms)
             val coinInfoDtoList = mapper.mapJsonContainerToListCoinInfo(jsonCont)
-            val dbModelList = coinInfoDtoList.map {
-                mapper.mapDtoToDbModel(it)
-            }
+            val dbModelList = coinInfoDtoList.map { mapper.mapDtoToDbModel(it) }
             coinInfoDao.insertPriceList(dbModelList)
             delay(10000)
         }
     }
-
 }

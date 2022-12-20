@@ -17,7 +17,7 @@ import com.example.cryptocurrency.presentation.App.Companion.KEY_REFRESHING_PERI
 import com.example.cryptocurrency.presentation.App.Companion.SHARED_PREFS_NAME
 import com.example.cryptocurrency.presentation.adapters.PriceListAdapter
 import com.example.cryptocurrency.utils.PriceDiffUtilsCallback
-import com.example.cryptocurrency.presentation.viewmodels.CoinsInfoViewModel
+import com.example.cryptocurrency.presentation.viewmodels.CoinInfoViewModel
 import com.example.cryptocurrency.utils.convertPercentOfMinutesToSeconds
 import kotlinx.android.synthetic.main.activity_coins_list.*
 import kotlinx.android.synthetic.main.coins_list.*
@@ -27,7 +27,7 @@ class CoinsListActivity : AppCompatActivity() {
     private var twoPane: Boolean = false
 
     private lateinit var adapter: PriceListAdapter
-    private lateinit var coinsInfoViewModel: CoinsInfoViewModel
+    private lateinit var coinInfoViewModel: CoinInfoViewModel
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var serviceLoadingIntent: Intent
 
@@ -35,14 +35,14 @@ class CoinsListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coins_list)
         sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
-        coinsInfoViewModel = ViewModelProviders.of(this)[CoinsInfoViewModel::class.java]
+        coinInfoViewModel = ViewModelProviders.of(this)[CoinInfoViewModel::class.java]
         serviceLoadingIntent = Intent(this, ServiceOfLoadingData::class.java)
         if (item_detail_container != null) {
             twoPane = true
         }
         setupRecyclerView(item_list)
         setupSeekBar()
-        coinsInfoViewModel.getPriceList().observe(this, Observer {
+        coinInfoViewModel.getPriceList().observe(this, Observer {
             if (it.isEmpty()) {
                 progress_bar_loading.visibility = View.VISIBLE
             } else {
