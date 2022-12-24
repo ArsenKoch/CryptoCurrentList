@@ -6,6 +6,10 @@ import com.example.cryptocurrency.data.network.model.CoinInfoJsonObjectDto
 import com.example.cryptocurrency.data.network.model.CoinNamesListDto
 import com.example.cryptocurrency.domain.CoinInfo
 import com.google.gson.Gson
+import java.sql.Date
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CoinMapper {
 
@@ -54,4 +58,14 @@ class CoinMapper {
         lowDay = dbModel.lowDay,
         imageUrl = dbModel.imageUrl
     )
+
+   private fun convertTimestampToTime(timestamp: Long?): String? {
+        if (timestamp == null) return null
+        val stamp = Timestamp(timestamp*1000)
+        val date = Date(stamp.time)
+        val pattern = "HH:mm::ss"
+        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+        sdf.timeZone = TimeZone.getDefault()
+        return sdf.format(date)
+    }
 }
