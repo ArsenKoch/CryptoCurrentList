@@ -32,7 +32,7 @@
                 tools:text="BTC / ETH" />
 
             <TextView
-                android:id="@+id/text_view_price"
+                android:id="@+id/tvPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/text_margin"
@@ -44,7 +44,7 @@
                 tools:text="100000 р" />
 
             <TextView
-                android:id="@+id/text_view_last_update"
+                android:id="@+id/tvLastUpdate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
@@ -56,7 +56,7 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/image_view_logo_coin"
+            android:id="@+id/ivLogoCoin"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="8dp"

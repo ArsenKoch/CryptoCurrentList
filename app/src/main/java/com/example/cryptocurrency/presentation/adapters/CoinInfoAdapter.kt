@@ -13,9 +13,9 @@ import com.example.cryptocurrency.data.network.ApiFactory.BASE_IMAGES_URL
 import com.example.cryptocurrency.domain.CoinInfo
 import com.example.cryptocurrency.utils.getTimeHMSFromTimestamp
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_coin_detail.view.image_view_logo_coin
-import kotlinx.android.synthetic.main.fragment_coin_detail.view.text_view_last_update
-import kotlinx.android.synthetic.main.fragment_coin_detail.view.text_view_price
+import kotlinx.android.synthetic.main.fragment_coin_detail.view.ivLogoCoin
+import kotlinx.android.synthetic.main.fragment_coin_detail.view.tvLastUpdate
+import kotlinx.android.synthetic.main.fragment_coin_detail.view.tvPrice
 import kotlinx.android.synthetic.main.item_coins_list_content.view.*
 
 
@@ -33,7 +33,7 @@ class CoinInfoAdapter(private val context: Context) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinInfoViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_coins_list_content, parent, false)
+            .inflate(R.layout.item_coin_info, parent, false)
         return CoinInfoViewHolder(view)
     }
 
@@ -59,9 +59,9 @@ class CoinInfoAdapter(private val context: Context) :
 
     inner class CoinInfoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvSymbols: TextView = itemView.text_view_symbols
-        val tvVPrice: TextView = itemView.text_view_price
-        val tvLastUpdated: TextView = itemView.text_view_last_update
-        val ivLogoCoins: ImageView = itemView.image_view_logo_coin
+        val tvVPrice: TextView = itemView.tvPrice
+        val tvLastUpdated: TextView = itemView.tvLastUpdate
+        val ivLogoCoins: ImageView = itemView.ivLogoCoin
     }
 
     interface OnCoinClickListener {

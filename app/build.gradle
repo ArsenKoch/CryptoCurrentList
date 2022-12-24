@@ -21,18 +21,13 @@ android {
         targetCompatibility JavaVersion.VERSION_11
     }
     buildTypes {
-        debug {
-//            buildConfigField("String", "API_KEY", API_KEY)
-            buildConfigField("String", "BASE_URL", "\"https://min-api.cryptocompare.com/data/\"")
-            buildConfigField("String", "BASE_IMAGES_URL", "\"https://www.cryptocompare.com\"")
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    viewBinding {
-        enabled true
+    buildFeatures {
+        viewBinding true
     }
 }
 
