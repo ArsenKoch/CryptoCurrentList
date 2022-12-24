@@ -21,7 +21,7 @@ class CoinMapper {
         lastUpdate = dto.lastUpdate,
         highDay = dto.highDay,
         lowDay = dto.lowDay,
-        imageUrl = dto.imageUrl
+        imageUrl = BASE_IMAGES_URL + dto.imageUrl
     )
 
     fun mapJsonContainerToListCoinInfo(jsonObjectDto: CoinInfoJsonObjectDto): List<CoinInfoDto> {
@@ -29,7 +29,7 @@ class CoinMapper {
         val json = jsonObjectDto.json ?: return result
         val coinKeySet = jsonObjectDto.keySet()
         for (coinKey in coinKeySet) {
-            val curJson = jsonObjectDto.getAsJsonObj(coinKey)
+            val curJson = jsonObjectDto.getAsJsonObject(coinKey)
             val curKeySet = curJson.keySet()
             for (curKey in curKeySet) {
                 val priceInfo = Gson().fromJson(

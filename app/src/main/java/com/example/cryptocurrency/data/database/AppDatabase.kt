@@ -28,5 +28,4 @@ abstract class AppDatabase: RoomDatabase() {
     }
 
     abstract fun coinPriceInfoDao(): CoinInfoDao
-    abstract fun coinInfoDao(): CoinInfoDao
 }
