@@ -3,6 +3,7 @@ package com.example.cryptocurrency.presentation.screens
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.cryptocurrency.R
 import com.example.cryptocurrency.databinding.CoinsListBinding
 import com.example.cryptocurrency.domain.CoinInfo
 import com.example.cryptocurrency.presentation.adapters.CoinInfoAdapter
@@ -22,13 +23,7 @@ class CoinInfoListActivity : AppCompatActivity() {
         val adapter = CoinInfoAdapter(this)
         adapter.onCoinClickListener = object : CoinInfoAdapter.OnCoinClickListener {
             override fun onCoinClick(coinInfo: CoinInfo) {
-                val intent = coinInfo.fromSymbol?.let {
-                    CoinDetailActivity.newIntent(
-                        this@CoinInfoListActivity,
-                        it
-                    )
-                }
-                startActivity(intent)
+                coinInfo.fromSymbol?.let { launchFragment(fromString = it) }
             }
         }
         binding.rvCoinPriceList.adapter = adapter
@@ -37,5 +32,13 @@ class CoinInfoListActivity : AppCompatActivity() {
         coinInfoViewModel.coinInfoList.observe(this) {
             adapter.submitList(it)
         }
+    }
+
+    private fun launchFragment(fromString: String) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, CoinDetailFragment.newInstance(fromString))
+            .addToBackStack(null)
+            .commit()
     }
 }
