@@ -4,7 +4,6 @@ import androidx.room.PrimaryKey
 
 
 data class CoinInfoDbModel(
-
     val lastMarket: String?,
     val toSymbol: String?,
     @PrimaryKey

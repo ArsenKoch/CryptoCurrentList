@@ -1,8 +1,8 @@
 package com.example.cryptocurrency.data.mapper
 
-import com.example.cryptocurrency.data.network.model.CoinInfoDto
 import com.example.cryptocurrency.data.database.CoinInfoDbModel
-import com.example.cryptocurrency.data.network.model.CoinInfoJsonObjectDto
+import com.example.cryptocurrency.data.network.model.CoinInfoDto
+import com.example.cryptocurrency.data.network.model.CoinInfoJsonContainerDto
 import com.example.cryptocurrency.data.network.model.CoinNamesListDto
 import com.example.cryptocurrency.domain.CoinInfo
 import com.google.gson.Gson
@@ -13,7 +13,7 @@ import java.util.*
 
 class CoinMapper {
 
-    fun mapDtoToDbModel(dto: CoinInfoDto): CoinInfoDbModel = CoinInfoDbModel(
+    fun mapDtoToDbModel(dto: CoinInfoDbModel): CoinInfoDbModel = CoinInfoDbModel(
         lastMarket = dto.lastMarket,
         toSymbol = dto.toSymbol,
         fromSymbol = dto.fromSymbol,
@@ -24,16 +24,16 @@ class CoinMapper {
         imageUrl = BASE_IMAGES_URL + dto.imageUrl
     )
 
-    fun mapJsonContainerToListCoinInfo(jsonObjectDto: CoinInfoJsonObjectDto): List<CoinInfoDto> {
+    fun mapJsonContainerToListCoinInfo(jsonContainerDto: CoinInfoJsonContainerDto): List<CoinInfoDto> {
         val result = mutableListOf<CoinInfoDto>()
-        val json = jsonObjectDto.json ?: return result
-        val coinKeySet = jsonObjectDto.keySet()
+        val json = jsonContainerDto.json ?: return result
+        val coinKeySet = json.keySet()
         for (coinKey in coinKeySet) {
-            val curJson = jsonObjectDto.getAsJsonObject(coinKey)
+            val curJson = json.getAsJsonObject(coinKey)
             val curKeySet = curJson.keySet()
             for (curKey in curKeySet) {
                 val priceInfo = Gson().fromJson(
-                    curJson.getAsJsonObj(curKey),
+                    curJson.getAsJsonObject(curKey),
                     CoinInfoDto::class.java
                 )
                 result.add(priceInfo)
@@ -45,7 +45,7 @@ class CoinMapper {
     fun mapNameListToString(namesListDto: CoinNamesListDto): String {
         return namesListDto.names?.map {
             it.coinName?.name
-        }?.joinTosTring(",") ?: ""
+        }?.joinToString(",") ?: ""
     }
 
     fun mapDbModelToEntity(dbModel: CoinInfoDbModel): CoinInfo = CoinInfo(

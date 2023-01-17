@@ -1,11 +1,10 @@
 package com.example.cryptocurrency.data.network.model
 
-import com.google.gson.JsonObject
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class CoinInfoJsonObjectDto {
-    @SerializedName("RAW")
+data class CoinName (
+    @SerializedName("Name")
     @Expose
-    var json: JsonObject? = null
-}
+    val name: String? = null
+)

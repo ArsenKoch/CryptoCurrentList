@@ -1,7 +1,5 @@
 package com.example.cryptocurrency.presentation.screens
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cryptocurrency.R
@@ -20,7 +18,6 @@ class CoinDetailActivity : AppCompatActivity() {
             finish()
             return
         }
-        val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL) ?: EMPTY_SYMBOL
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
@@ -32,12 +29,5 @@ class CoinDetailActivity : AppCompatActivity() {
 
     companion object {
         private const val EXTRA_FROM_SYMBOL = "fSym"
-        private const val EMPTY_SYMBOL = ""
-
-        fun newIntent(context: Context, fromSymbol: String): Intent {
-            val intent = Intent(context, CoinDetailActivity::class.java)
-            intent.putExtra(EXTRA_FROM_SYMBOL, fromSymbol)
-            return intent
-        }
     }
 }

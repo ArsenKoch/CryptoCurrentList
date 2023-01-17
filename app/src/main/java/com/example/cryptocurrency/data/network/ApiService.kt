@@ -1,6 +1,6 @@
 package com.example.cryptocurrency.data.network
 
-import com.example.cryptocurrency.data.network.model.CoinInfoJsonObjectDto
+import com.example.cryptocurrency.data.network.model.CoinInfoJsonContainerDto
 import com.example.cryptocurrency.data.network.model.CoinNamesListDto
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -19,7 +19,7 @@ interface ApiService {
         @Query(QUERY_API_KEY) apiKey: String = "",
         @Query(QUERY_PARAMS_FROM_SYMBOLS) listOfFromSymbols: String,
         @Query(QUERY_PARAMS_TO_SYMBOLS) listOfToSymbols: String = CURRENCY_USD
-    ): CoinInfoJsonObjectDto
+    ): CoinInfoJsonContainerDto
 
     companion object {
         private const val QUERY_PARAMS_LIMIT = "limit"
