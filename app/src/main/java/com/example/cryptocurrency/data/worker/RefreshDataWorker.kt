@@ -2,6 +2,8 @@ package com.example.cryptocurrency.data.worker
 
 import android.content.Context
 import androidx.work.CoroutineWorker
+import androidx.work.OneTimeWorkRequest
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkerParameters
 import com.example.cryptocurrency.data.database.AppDatabase
 import com.example.cryptocurrency.data.mapper.CoinMapper
@@ -29,4 +31,12 @@ class RefreshDataWorker(
         }
     }
 
+    companion object {
+
+        const val NAME = "RefreshDataWorker"
+
+        fun makeRequest(): OneTimeWorkRequest {
+            return OneTimeWorkRequestBuilder<RefreshDataWorker>().build()
+        }
+    }
 }
